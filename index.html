@@ -29,7 +29,7 @@
     text-align: center;
   }
   footer {
-    padding: 10px;
+    padding: 30px;
     background: #96A7B1;
   }
   a {
@@ -41,10 +41,25 @@
     background:#EBEDEC;
     margin: 10px;
     padding: 15px;
-    width: 330px;
+    min-width: 330px;
     border-radius: 5px;
     min-height: 200px;
     text-align: left;
+    overflow-y: auto;
+  }
+  .input{
+    text-align: center;
+    width: 1100px;
+  }
+  table{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border:1px solid black;
+    border-collapse: collapse; 
+  }
+  th,td{
+    border:1px solid black;
   }
   </style>
  </head>
@@ -118,14 +133,202 @@
   </header>
   <div class="content">
     
-    <div class="panel"></div><div class="panel"></div><div class="panel"></div><div class="panel"></div>
-<div class="panel"></div><div class="panel"></div><div class="panel"></div><div class="panel"></div><div class="panel"></div><div class="panel"></div>
+    <div class="panel input">
+      HexString Input<br>
+      <textarea cols="50" id="HexString" maxlength="2048" name="HexString" rows="10" style='width: 1000px;resize: none;'></textarea><br>
+      <input type="button" value="Analize" id="button">
+    </div>
+    <br>
+
+    <div class="panel">
+      <table id="binary">
+        <caption>Binary</caption>
+        <tr>
+         <th width="30px">#</th>
+         <th width="60px">hex</th>
+         <th>bin</th>
+        </tr>
+        <tr>
+          <td>
+            99
+          </td>
+          <td>
+            AA BB
+          </td>
+          <td>
+            00000000 00000000
+          </td>
+        </tr>
+       </table>
+    </div>
+
+    <div class="panel">
+      <table id="UInt16AB">
+        <caption>Uint16 (AB)</caption>
+        <tr>
+         <th width="30px">#</th>
+         <th width="60px">hex</th>
+         <th>bin</th>
+        </tr>
+        <tr>
+          <td>
+            99
+          </td>
+          <td>
+            AA BB
+          </td>
+          <td>
+            00000000 00000000
+          </td>
+        </tr>
+       </table>
+    </div>
+    <div class="panel">
+      <table id="UInt16BA">
+        <caption>Uint16 (BA)</caption>
+        <tr>
+         <th width="30px">#</th>
+         <th width="60px">hex</th>
+         <th>bin</th>
+        </tr>
+        <tr>
+          <td>
+            99
+          </td>
+          <td>
+            AA BB
+          </td>
+          <td>
+            65535
+          </td>
+        </tr>
+       </table>    
+    </div> <br>
+<div class="panel">
+  
+</div>
+<div class="panel">
+  
+</div>
+<div class="panel">
+  
+</div><br>
+<div class="panel">
+  
+</div>
+<div class="panel">
+  
+</div>
+<div class="panel">
+  
+</div>
   </div>
   
 
 
 
   <footer></footer>
+
+  <script type="text/javascript">
+    let button=document.getElementById("button");
+    button.onclick=Analize;
+    let Hex_Input=document.getElementById("HexString").value;//входная HEX строка
+    
+    let Bin_Array=[];//массив бинарного представления слов
+    
+    let Word_AB_Array=[];//массив HEX слов в Big Endian
+    let Word_BA_Array=[];//массив HEX слов в Little Endian
+    
+    let DWord_ABCD_Array=[];//Массив двойных слов в Big Endian
+    let DWord_DCBA_Array=[];//Массив двойных слов в Little Endian
+    let DWord_BADC_Array=[];//Массив двойных слов в Mid-Big Endian 
+    let DWord_CDAB_Array=[];//Массив двойных слов в Mid-Little Endian
+    
+    let UInt_AB_Array=[];
+    let UInt_BA_Array=[];
+
+    let Int_ABCD_Array=[];//
+    let Int_DCBA_Array=[];//
+    let Int_BADC_Array=[];//
+    let Int_CDAB_Array=[];//
+    //Mid-Little Endian (CDAB)
+    function CDAB(s){
+      return s.match(/(.{4})/g).reverse().join("");
+    }
+    function BA(s){
+      return s.match(/(.{2})/g).reverse().join("");
+    }
+    //Little Endian (DCBA)
+    function DCBA(s){
+      return s.split("").reverse().join("");
+    }
+    //Mid-Big Endian (BADC)
+    function BADC(enterString){
+      return enterString.match(/(.{4})/g).map(part => part.split("").reverse().join("")).join("");
+    }
+    function FillBinary(){
+      let table=document.getElementById("binary");
+      table.innerHTML='<caption>Binary</caption><tbody><tr><th width="30px">#</th><th width="60px">hex</th><th>bin</th></tr>';
+      for(let i=0;i<Bin_Array.length;i++){
+        table.innerHTML+="<tr><td>"+i*2+"</td><td>"+Word_AB_Array[i]+"</td><td>"+Bin_Array[i]+"</td></tr>"
+      }
+    }
+
+    function FillUInt16AB(){
+      let table=document.getElementById("UInt16AB");
+      table.innerHTML='<caption>UInt16 (AB)</caption><tbody><tr><th width="30px">#</th><th width="60px">hex</th><th>bin</th></tr>';
+      for(let i=0;i<UInt_AB_Array.length;i++){
+        table.innerHTML+="<tr><td>"+i*2+"</td><td>"+Word_AB_Array[i]+"</td><td>"+UInt_AB_Array[i]+"</td></tr>"
+      }
+    }
+    function FillUInt16BA(){
+      let table=document.getElementById("UInt16BA");
+      table.innerHTML='<caption>UInt16 (BA)</caption><tbody><tr><th width="30px">#</th><th width="60px">hex</th><th>bin</th></tr>';
+      for(let i=0;i<UInt_BA_Array.length;i++){
+        table.innerHTML+="<tr><td>"+i*2+"</td><td>"+Word_BA_Array[i]+"</td><td>"+UInt_BA_Array[i]+"</td></tr>"
+      }
+    }
+    function Analize(){
+      let Hex_Input=document.getElementById("HexString").value;//входная HEX строка
+       //дополняем нулями недостающие части
+       Hex_Input="0".repeat((4-Hex_Input.length%4)<4?(4-Hex_Input.length%4):0)+Hex_Input;
+      
+      Word_AB_Array=Hex_Input.match(/(.{4})/g);  
+      Word_BA_Array=Word_AB_Array.map(BA);
+      Hex_Input=Hex_Input+"0".repeat((8-Hex_Input.length%8)<8?(8-Hex_Input.length%8):0);
+      
+       DWord_ABCD_Array=Hex_Input.match(/(.{8})/g);
+       DWord_DCBA_Array=DWord_ABCD_Array.map(DCBA);
+       DWord_BADC_Array=DWord_ABCD_Array.map(BADC);
+       DWord_CDAB_Array=DWord_ABCD_Array.map(CDAB);
+       
+       Bin_Array=Word_AB_Array.map(
+        (el) => {return parseInt(el,16);}
+        ).map((el)=>{
+          let a=el.toString(2);
+          a="0".repeat((16-a.length%16)<16?(16-a.length%16):0)+a;
+          return a;
+          });
+        UInt_AB_Array=Word_AB_Array.map(
+        (el) => {return parseInt(el,16);}
+        );
+        UInt_BA_Array=Word_BA_Array.map(
+        (el) => {return parseInt(el,16);}
+        );
+      console.log("Bin Array",Bin_Array);
+      console.log("Word AB",Word_AB_Array);
+      console.log("Word BA",Word_BA_Array);
+      console.log("DWord ABCD",DWord_ABCD_Array);
+      console.log("DWord CDAB",DWord_CDAB_Array);
+      FillBinary();
+      FillUInt16AB();
+      FillUInt16BA();
+      let raw=new Uint16Array(UInt_AB_Array);
+      console.log(raw);
+    }
+      
+  </script>
+
 </body>
  </body>
 </html>
