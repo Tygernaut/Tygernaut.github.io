@@ -49,7 +49,7 @@
   }
   .input{
     text-align: center;
-    width: 1100px;
+    width: 90%;
   }
   table{
     width: 100%;
@@ -135,7 +135,7 @@
     
     <div class="panel input">
       HexString Input<br>
-      <textarea cols="50" id="HexString" maxlength="2048" name="HexString" rows="10" style='width: 1000px;resize: none;'></textarea><br>
+      <textarea cols="50" id="HexString" maxlength="2048" name="HexString" rows="10" style='width: 90%;resize: none;'></textarea><br>
       <input type="button" value="Analize" id="button">
     </div>
     <br>
@@ -204,6 +204,90 @@
         </tr>
        </table>    
     </div> <br>
+    <div class="panel">
+      <table id="UInt32ABCD">
+        <caption>Uint32 (ABCD)</caption>
+        <tr>
+         <th width="30px">#</th>
+         <th width="60px">hex</th>
+         <th>bin</th>
+        </tr>
+        <tr>
+          <td>
+            99
+          </td>
+          <td>
+            AA BB
+          </td>
+          <td>
+            65535
+          </td>
+        </tr>
+       </table>    
+    </div>
+    <div class="panel">
+      <table id="UInt32DCBA">
+        <caption>Uint32 (DCBA)</caption>
+        <tr>
+         <th width="30px">#</th>
+         <th width="60px">hex</th>
+         <th>bin</th>
+        </tr>
+        <tr>
+          <td>
+            99
+          </td>
+          <td>
+            AA BB
+          </td>
+          <td>
+            65535
+          </td>
+        </tr>
+       </table>    
+    </div>
+    <div class="panel">
+      <table id="UInt32BADC">
+        <caption>Uint32 (BADC)</caption>
+        <tr>
+         <th width="30px">#</th>
+         <th width="60px">hex</th>
+         <th>bin</th>
+        </tr>
+        <tr>
+          <td>
+            99
+          </td>
+          <td>
+            AA BB
+          </td>
+          <td>
+            65535
+          </td>
+        </tr>
+       </table>    
+    </div>
+    <div class="panel">
+      <table id="UInt32CDAB">
+        <caption>Uint32 (CDAB)</caption>
+        <tr>
+         <th width="30px">#</th>
+         <th width="60px">hex</th>
+         <th>bin</th>
+        </tr>
+        <tr>
+          <td>
+            99
+          </td>
+          <td>
+            AA BB
+          </td>
+          <td>
+            65535
+          </td>
+        </tr>
+       </table>    
+    </div>
 <div class="panel">
   
 </div>
@@ -247,10 +331,23 @@
     let UInt_AB_Array=[];
     let UInt_BA_Array=[];
 
+    let Int_AB_Array=[];
+    let Int_BA_Array=[];
+
+    let UInt_ABCD_Array=[];//
+    let UInt_DCBA_Array=[];//
+    let UInt_BADC_Array=[];//
+    let UInt_CDAB_Array=[];//
+
     let Int_ABCD_Array=[];//
     let Int_DCBA_Array=[];//
     let Int_BADC_Array=[];//
     let Int_CDAB_Array=[];//
+
+    let Float_ABCD_Array=[];//
+    let Float_DCBA_Array=[];//
+    let Float_BADC_Array=[];//
+    let Float_CDAB_Array=[];//
     //Mid-Little Endian (CDAB)
     function CDAB(s){
       return s.match(/(.{4})/g).reverse().join("");
@@ -266,6 +363,8 @@
     function BADC(enterString){
       return enterString.match(/(.{4})/g).map(part => part.split("").reverse().join("")).join("");
     }
+
+    //заполняет таблицу бинарным представлением чисел
     function FillBinary(){
       let table=document.getElementById("binary");
       table.innerHTML='<caption>Binary</caption><tbody><tr><th width="30px">#</th><th width="60px">hex</th><th>bin</th></tr>';
@@ -274,6 +373,7 @@
       }
     }
 
+    //заполняет таблицу uint 16 представлением чисел
     function FillUInt16AB(){
       let table=document.getElementById("UInt16AB");
       table.innerHTML='<caption>UInt16 (AB)</caption><tbody><tr><th width="30px">#</th><th width="60px">hex</th><th>bin</th></tr>';
@@ -288,6 +388,39 @@
         table.innerHTML+="<tr><td>"+i*2+"</td><td>"+Word_BA_Array[i]+"</td><td>"+UInt_BA_Array[i]+"</td></tr>"
       }
     }
+    function FillUInt32ABCD(){
+      let table=document.getElementById("UInt32ABCD");
+      table.innerHTML='<caption>UInt32 (ABCD)</caption><tbody><tr><th width="30px">#</th><th width="60px">hex</th><th>bin</th></tr>';
+      for(let i=0;i<UInt_ABCD_Array.length;i++){
+
+        table.innerHTML+="<tr><td>"+i*4+"</td><td>"+DWord_ABCD_Array[i]+"</td><td>"+UInt_ABCD_Array[i]+"</td></tr>"
+      }
+    }
+    function FillUInt32DCBA(){
+      let table=document.getElementById("UInt32DCBA");
+      table.innerHTML='<caption>UInt32 (DCBA)</caption><tbody><tr><th width="30px">#</th><th width="60px">hex</th><th>bin</th></tr>';
+      for(let i=0;i<UInt_DCBA_Array.length;i++){
+
+        table.innerHTML+="<tr><td>"+i*4+"</td><td>"+DWord_DCBA_Array[i]+"</td><td>"+UInt_DCBA_Array[i]+"</td></tr>"
+      }
+    }
+    function FillUInt32BADC(){
+      let table=document.getElementById("UInt32BADC");
+      table.innerHTML='<caption>UInt32 (BADC)</caption><tbody><tr><th width="30px">#</th><th width="60px">hex</th><th>bin</th></tr>';
+      for(let i=0;i<UInt_ABCD_Array.length;i++){
+
+        table.innerHTML+="<tr><td>"+i*4+"</td><td>"+DWord_BADC_Array[i]+"</td><td>"+UInt_BADC_Array[i]+"</td></tr>"
+      }
+    }
+    function FillUInt32CDAB(){
+      let table=document.getElementById("UInt32CDAB");
+      table.innerHTML='<caption>UInt32 (ABCD)</caption><tbody><tr><th width="30px">#</th><th width="60px">hex</th><th>bin</th></tr>';
+      for(let i=0;i<UInt_CDAB_Array.length;i++){
+
+        table.innerHTML+="<tr><td>"+i*4+"</td><td>"+DWord_CDAB_Array[i]+"</td><td>"+UInt_CDAB_Array[i]+"</td></tr>"
+      }
+    }
+
     function Analize(){
       let Hex_Input=document.getElementById("HexString").value;//входная HEX строка
        //дополняем нулями недостающие части
@@ -302,19 +435,35 @@
        DWord_BADC_Array=DWord_ABCD_Array.map(BADC);
        DWord_CDAB_Array=DWord_ABCD_Array.map(CDAB);
        
+       //бинарное представление слов
        Bin_Array=Word_AB_Array.map(
-        (el) => {return parseInt(el,16);}
-        ).map((el)=>{
-          let a=el.toString(2);
-          a="0".repeat((16-a.length%16)<16?(16-a.length%16):0)+a;
-          return a;
+          (el) => {
+            return parseInt(el,16);
+          }).map((el)=>{
+            let a=el.toString(2);
+            a="0".repeat((16-a.length%16)<16?(16-a.length%16):0)+a;
+            return a;
           });
-        UInt_AB_Array=Word_AB_Array.map(
+        
+      UInt_AB_Array=Word_AB_Array.map(
         (el) => {return parseInt(el,16);}
         );
-        UInt_BA_Array=Word_BA_Array.map(
+      UInt_BA_Array=Word_BA_Array.map(
         (el) => {return parseInt(el,16);}
         );
+      
+      UInt_ABCD_Array=DWord_ABCD_Array.map(
+        (el) => {return parseInt(el,16);}
+      );
+      UInt_CDAB_Array=DWord_CDAB_Array.map(
+        (el) => {return parseInt(el,16);}
+      );
+      UInt_DCBA_Array=DWord_DCBA_Array.map(
+        (el) => {return parseInt(el,16);}
+      );
+      UInt_BADC_Array=DWord_BADC_Array.map(
+        (el) => {return parseInt(el,16);}
+      );
       console.log("Bin Array",Bin_Array);
       console.log("Word AB",Word_AB_Array);
       console.log("Word BA",Word_BA_Array);
@@ -323,8 +472,44 @@
       FillBinary();
       FillUInt16AB();
       FillUInt16BA();
-      let raw=new Uint16Array(UInt_AB_Array);
-      console.log(raw);
+      Int_AB_Array=Array.from(new Int16Array(UInt_AB_Array));
+      Int_BA_Array=Array.from(new Int16Array(UInt_BA_Array));
+      Int_ABCD_Array=Array.from(new Int32Array(UInt_ABCD_Array));
+      Int_CDAB_Array=Array.from(new Int32Array(UInt_CDAB_Array));
+      Int_DCBA_Array=Array.from(new Int32Array(UInt_DCBA_Array));
+      Int_BADC_Array=Array.from(new Int32Array(UInt_BADC_Array));
+
+      let Buffer=new ArrayBuffer(UInt_ABCD_Array.length*32);
+      const view = new DataView(Buffer);
+      for(let i=0;i<UInt_ABCD_Array.length;i++){
+        view.setUint32(i+1,UInt_ABCD_Array[i]);  
+        console.log(view.getFloat32(i+1));
+        Float_ABCD_Array[i]=view.getFloat32(i+1);
+
+        view.setUint32(i+1,UInt_DCBA_Array[i]);  
+        console.log(view.getFloat32(i+1));
+        Float_DCBA_Array[i]=view.getFloat32(i+1);
+
+        view.setUint32(i+1,UInt_BADC_Array[i]);  
+        console.log(view.getFloat32(i+1));
+        Float_BADC_Array[i]=view.getFloat32(i+1);
+
+        view.setUint32(i+1,UInt_CDAB_Array[i]);  
+        console.log(view.getFloat32(i+1));
+        Float_CDAB_Array[i]=view.getFloat32(i+1);
+      }
+      view.setUint32(1,UInt_ABCD_Array[0]);
+      view.setUint32(2,UInt_ABCD_Array[1]);
+      console.log(view.getFloat32(1));
+      console.log(view.getFloat32(2));
+      /*//Float_ABCD_Array=Array.from(new Float32Array(Int_ABCD_Array));
+      Float_DCBA_Array=Array.from(new Float32Array(UInt_DCBA_Array));
+      Float_BADC_Array=Array.from(new Float32Array(UInt_BADC_Array));
+      Float_CDAB_Array=Array.from(new Float32Array(UInt_CDAB_Array));*/
+      FillUInt32CDAB();
+      FillUInt32ABCD();
+      FillUInt32BADC();
+      FillUInt32DCBA();
     }
       
   </script>
