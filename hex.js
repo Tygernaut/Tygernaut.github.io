@@ -28,8 +28,7 @@ class HEX {
     _checkString() {
         this._HexText = this._HexText.toUpperCase();
         this._HexText = this._HexText.replace(/[^A-F0-9]/g, "");
-        console.log(this._HexText);
-        return true;
+        return this._HexText.length;
     }
 
     //
