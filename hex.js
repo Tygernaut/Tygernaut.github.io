@@ -130,6 +130,18 @@ class HEX {
     _build() {
 
     }
+    ///Binary
+    get getBinary() {
+        let arr = [];
+        for (let i = 0; i < this.WordsCount; i++) {
+            arr[i] = this._view_ABCD.getUint16(i * 2, false).toString(2);
+            arr[i] = ("0".repeat(16 - arr[i].length) + arr[i]).match(/(.{8})/g).join(" ");
+        }
+        return {
+            hex: this._HexText.match(/(.{4})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            value: arr
+        };
+    }
     ///UINT16 - Big Endian (AB)
     get getUint16AB() {
         let arr = [];
