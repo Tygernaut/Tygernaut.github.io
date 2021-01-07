@@ -16,6 +16,7 @@
             flex-direction: column;
             min-height: 100%;
             margin: 0;
+            padding:0;
             background: #FFFFFF;
         }
 
@@ -28,6 +29,7 @@
             padding-left: 10px;
             height: 100px;
             background: #96A7B1;
+
         }
 
         .content {
@@ -48,7 +50,7 @@
         .panel {
             display: inline-block;
             background: #EBEDEC;
-            margin: 10px;
+            margin-top: 10px;
             margin-bottom: 0;
             padding: 15px;
             min-width: 330px;
@@ -256,18 +258,14 @@ border-radius: 20px;*/
             <div class="panel input">
                 HexString Input<br>
                 <textarea cols="50" id="HexString" maxlength="2048" name="HexString" rows="10"
-                    style='width: 90%;resize: none;'></textarea><br>
+                    style='width: 100%;resize: none;'></textarea><br>
                 <input type="button" value="Analize" id="button">
             </div>
-            <br>
-            <div>
-            </div>
-            <div class="panel"></div>
-            <div class="panel" id="result">
+            <div class="panel">ssdfdfdf</div><div class="panel" id="result">
                 <table>
                     <tr>
                         <th width="50">#</th>
-                        <th>hex</th>
+                        <th width="110">hex</th>
                         <th>UINT32</th>
                         <th>INT32</th>
                         <th>Float</th>
@@ -296,7 +294,7 @@ border-radius: 20px;*/
                 <table>
                     <tr>
                         <th width="50">#</th>
-                        <th>hex</th>
+                        <th width="110">hex</th>
                         <th>UINT16</th>
                         <th>INT16</th>
                     </tr>
