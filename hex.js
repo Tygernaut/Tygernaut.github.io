@@ -7,7 +7,7 @@ class HEX {
         return s.match(/(.{8})/g).map(part => part.match(/(.{2})/g).reverse().join("")).join("");
     };
     constructor(HexStringInput) {
-        //Big Endian	(false)
+        //Big Endian    (false)
         this.DCBAbuffer = null; //Little Endian (true)
         //Mid-Big Endian (false)
         this.CDABbuffer = null; //Mid-Little Endian (true)
@@ -26,7 +26,9 @@ class HEX {
     /*!!!!*/
     //check the validity of input string
     _checkString() {
-        this._HexText.toUpperCase();
+        this._HexText = this._HexText.toUpperCase();
+        this._HexText = this._HexText.replace(/[^A-F0-9]/g, "");
+        console.log(this._HexText);
         return true;
     }
 
@@ -130,6 +132,12 @@ class HEX {
     _build() {
 
     }
+
+    ///Get Hex String
+    get getHexString() {
+        return this._HexText.split(/(.{2})/g).join(" ");
+    }
+
     ///Binary
     get getBinary() {
         let arr = [];
