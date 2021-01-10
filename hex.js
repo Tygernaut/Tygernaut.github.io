@@ -7,20 +7,37 @@ class HEX {
         return s.match(/(.{8})/g).map(part => part.match(/(.{2})/g).reverse().join("")).join("");
     };
     constructor(HexStringInput) {
+        //Formats a string in a group of n characters
+        String.prototype.format=function(n){
+            let pattern=new RegExp("(.{"+n+"})","g");
+            return this.match(pattern).map(part => part.match(/(.{2})/g).join(" "))};
+        //Splits string by n characters and reverse 2-chars group inside substrings.
+        String.prototype.mirror=function(n){
+            let pattern=new RegExp("(.{"+n+"})","g");
+            return this.match(pattern).map(part => part.match(/(.{2})/g).reverse().join("")).join("");
+        }
         //Big Endian    (false)
         this.DCBAbuffer = null; //Little Endian (true)
         //Mid-Big Endian (false)
         this.CDABbuffer = null; //Mid-Little Endian (true)
-        this._view_ABCD = null;
-        this._view_BADC = null;
+        this._viewABCD = null;
+        this._viewBADC = null;
         this._HexText = HexStringInput;
         this._HexText2 = '';
-        this._wordArray_ABCD = [];
-        this._wordArray_BADC = [];
-        this.WordsCount = 0;
-        this.DwordsCount = 0;
-        this.QwordsCount = 0;
+        this._wordArrayABCD = [];
+        this._wordArrayBADC = [];
+        this._wordsCount = 0;
+        this._dwordsCount = 0;
         this._analyze();
+        //Formats a string in a group of n characters
+        String.prototype.format=function(n){
+            let pattern=new RegExp("(.{"+n+"})","g");
+            return this.match(pattern).map(part => part.match(/(.{2})/g).join(" "))};
+        //Splits string by n characters and reverse 2-chars group inside substrings.
+        String.prototype.mirror=function(n){
+            let pattern=new RegExp("(.{"+n+"})","g");
+            return this.match(pattern).map(part => part.match(/(.{2})/g).reverse().join("")).join("");
+        }
     }
 
     /*!!!!*/
@@ -35,13 +52,13 @@ class HEX {
     _analyze() {
         if (this._checkString()) { //проверка на валидность строки
             this._normalize();
-            this._wordArray_ABCD = this._HexText.match(/(.{2})/g).map(
+            this._wordArrayABCD = this._HexText.match(/(.{2})/g).map(
                 (el) => {
                     return parseInt(el, 16);
                 }
             );
-            this._HexText2 = this.BADC(this._HexText);
-            this._wordArray_BADC = this._HexText2.match(/(.{2})/g).map(
+            this._HexText2 = this._HexText.mirror(4);
+            this._wordArrayBADC = this._HexText2.match(/(.{2})/g).map(
                 (el) => {
                     return parseInt(el, 16);
                 }
@@ -49,64 +66,17 @@ class HEX {
             //мой метод дополнения нулей перед числом.
             //this._HexText="0".repeat((4-this._HexText.length%4)<4?(4-this._HexText.length%4):0)+this._HexText;
 
-            this.DwordsCount = this._wordArray_ABCD.length / 4;
+            this._dwordsCount = this._wordArrayABCD.length / 4;
 
-            this.DCBAbuffer = new Uint8Array(this._wordArray_ABCD).buffer;
-            this._view_ABCD = new DataView(this.DCBAbuffer);
+            this.DCBAbuffer = new Uint8Array(this._wordArrayABCD).buffer;
+            this._viewABCD = new DataView(this.DCBAbuffer);
 
-            this.CDABbuffer = new Uint8Array(this._wordArray_BADC).buffer;
-            this._view_BADC = new DataView(this.CDABbuffer);
+            this.CDABbuffer = new Uint8Array(this._wordArrayBADC).buffer;
+            this._viewBADC = new DataView(this.CDABbuffer);
 
         }
     }
 
-
-    printData(view) {
-        for (let i = 0; i < this.WordsCount; i++) {
-            console.log(i * 2, " Int16 AB", view.getInt16(i * 2, false))
-        }
-        console.log("");
-        for (let i = 0; i < this.WordsCount; i++) {
-            console.log(i * 2, " Int16 BA", view.getInt16(i * 2, true))
-        }
-        console.log("");
-        for (let i = 0; i < this.WordsCount; i++) {
-            console.log(i * 2, " Uint16 AB", view.getUint16(i * 2, false))
-        }
-        console.log("");
-        for (let i = 0; i < this.WordsCount; i++) {
-            console.log(i * 2, " Uint16 BA", view.getUint16(i * 2, true))
-        }
-
-        console.log("");
-        for (let i = 0; i < this.DwordsCount; i++) {
-            console.log(i * 4, " Uint32 ABCD", view.getUint32(i * 4, false))
-        }
-        console.log("");
-        for (let i = 0; i < this.DwordsCount; i++) {
-            console.log(i * 4, " Uint32 DCBA", view.getUint32(i * 4, true))
-        }
-
-        console.log("");
-        for (let i = 0; i < this.DwordsCount; i++) {
-            console.log(i * 4, " Int32 ABCD", view.getInt32(i * 4, false))
-        }
-        console.log("");
-        for (let i = 0; i < this.DwordsCount; i++) {
-            console.log(i * 4, " Int32 DCBA", view.getInt32(i * 4, true))
-        }
-
-        console.log("");
-        for (let i = 0; i < this.DwordsCount; i++) {
-            console.log(i * 4, " Float32 ABCD", view.getFloat32(i * 4, false))
-        }
-        console.log("");
-        for (let i = 0; i < this.DwordsCount; i++) {
-            console.log(i * 4, " Float32 DCBA", view.getFloat32(i * 4, true))
-        }
-
-
-    }
     _normalize() {
         //добавление нулей для нечетного числа символов
         if (!this.even(this._HexText.length)) {
@@ -116,212 +86,222 @@ class HEX {
         if (this._HexText.length % 4) {
             this._HexText += "00";
         }
-        this._wordArray_ABCD = this._HexText.match(/(.{4})/g).map(
+        this._wordArrayABCD = this._HexText.match(/(.{4})/g).map(
             (el) => {
                 return parseInt(el, 16);
             }
         );
-        this.WordsCount = this._wordArray_ABCD.length;
+        this._wordsCount = this._wordArrayABCD.length;
         //добавление нулей для недостающих DWord
         if (this._HexText.length % 8) {
             this._HexText += "0000";
         }
 
     }
-    _build() {
 
+    /// get words count
+    get wordsCount(){
+        return this._wordsCount;
     }
-
+    ///get double words count
+    get dwordsCount(){
+        return this._dwordsCount;
+    }
     ///Get Hex String
     get getHexString() {
-        return this._HexText.split(/(.{2})/g).join(" ");
+        return this._HexText.match(/(.{2})/g).join(" ");
+    }
+
+    ///Get Dec String
+    get getDecString(){
+        return this._HexText.match(/(.{2})/g).map(el => parseInt(el, 16)).join(" ");
     }
 
     ///Binary
     get getBinary() {
         let arr = [];
-        for (let i = 0; i < this.WordsCount; i++) {
-            arr[i] = this._view_ABCD.getUint16(i * 2, false).toString(2);
+        for (let i = 0; i < this._wordsCount; i++) {
+            arr[i] = this._viewABCD.getUint16(i * 2, false).toString(2);
             arr[i] = ("0".repeat(16 - arr[i].length) + arr[i]).match(/(.{8})/g).join(" ");
         }
         return {
-            hex: this._HexText.match(/(.{4})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.format(4),
             value: arr
         };
     }
     ///UINT16 - Big Endian (AB)
     get getUint16AB() {
         let arr = [];
-        for (let i = 0; i < this.WordsCount; i++) {
-            arr[i] = this._view_ABCD.getUint16(i * 2, false);
+        for (let i = 0; i < this._wordsCount; i++) {
+            arr[i] = this._viewABCD.getUint16(i * 2, false);
         }
         return {
-            hex: this._HexText.match(/(.{4})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.format(4),
             value: arr
         };
     }
     ///UINT16 - Little Endian (BA)
     get getUint16BA() {
         let arr = [];
-        for (let i = 0; i < this.WordsCount; i++) {
-            arr[i] = this._view_ABCD.getUint16(i * 2, true);
+        for (let i = 0; i < this._wordsCount; i++) {
+            arr[i] = this._viewABCD.getUint16(i * 2, true);
         }
         return {
-            hex: this.BADC(this._HexText).match(/(.{4})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.mirror(4).format(4),
             value: arr
         };
     }
     ///INT16 - Big Endian (AB)
     get getInt16AB() {
         let arr = [];
-        for (let i = 0; i < this.WordsCount; i++) {
-            arr[i] = this._view_ABCD.getInt16(i * 2, false);
+        for (let i = 0; i < this._wordsCount; i++) {
+            arr[i] = this._viewABCD.getInt16(i * 2, false);
         }
         return {
-            hex: this._HexText.match(/(.{4})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.format(4),
             value: arr
         };
     }
     ///INT16 - Little Endian (BA)
     get getInt16BA() {
         let arr = [];
-        for (let i = 0; i < this.WordsCount; i++) {
-            arr[i] = this._view_ABCD.getInt16(i * 2, true);
+        for (let i = 0; i < this._wordsCount; i++) {
+            arr[i] = this._viewABCD.getInt16(i * 2, true);
         }
         return {
-            hex: this.BADC(this._HexText).match(/(.{4})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.mirror(4).format(4),
             value: arr
         };
     }
     ///UINT32 - Big Endian (ABCD)
     get getUint32ABCD() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_ABCD.getUint32(i * 4, false);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewABCD.getUint32(i * 4, false);
         }
         return {
-            hex: this._HexText.match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.format(8),
             value: arr
         };
     }
     ///UINT32 - Little Endian (DCBA)
     get getUint32DCBA() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_ABCD.getUint32(i * 4, true);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewABCD.getUint32(i * 4, true);
         }
         return {
-            hex: this.DCBA(this._HexText).match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.mirror(8).format(8),
             value: arr
         };
     }
     ///UINT32 - Mid-Big Endian (BADC)
     get getUint32BADC() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_BADC.getUint32(i * 4, false);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewBADC.getUint32(i * 4, false);
         }
         return {
-            hex: this._HexText2.match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText2.format(8),
             value: arr
         };
     }
     ///UINT32 - Mid-Little Endian (CDAB)
     get getUint32CDAB() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_BADC.getUint32(i * 4, true);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewBADC.getUint32(i * 4, true);
         }
         return {
-            hex: this.DCBA(this._HexText2).match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText2.mirror(8).format(8),
             value: arr
         };
     }
     ///INT32 - Big Endian (ABCD)
     get getInt32ABCD() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_ABCD.getInt32(i * 4, false);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewABCD.getInt32(i * 4, false);
         }
         return {
-            hex: this._HexText.match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.format(8),
             value: arr
         };
     }
     ///INT32 - Little Endian (DCBA)
     get getInt32DCBA() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_ABCD.getInt32(i * 4, true);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewABCD.getInt32(i * 4, true);
         }
         return {
-            hex: this.DCBA(this._HexText).match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.mirror(8).format(8),
             value: arr
         };
     }
     ///INT32 - Mid-Big Endian (BADC)
     get getInt32BADC() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_BADC.getInt32(i * 4, false);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewBADC.getInt32(i * 4, false);
         }
         return {
-            hex: this._HexText2.match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText2.format(8),
             value: arr
         };
     }
     ///INT32 - Mid-Little Endian (CDAB)
     get getInt32CDAB() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_BADC.getInt32(i * 4, true);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewBADC.getInt32(i * 4, true);
         }
         return {
-            hex: this.DCBA(this._HexText2).match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText2.mirror(8).format(8),
             value: arr
         };
     }
     ///Float32 - Big Endian (ABCD)
     get getFloat32ABCD() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_ABCD.getFloat32(i * 4, false);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewABCD.getFloat32(i * 4, false);
         }
         return {
-            hex: this._HexText.match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.format(8),
             value: arr
         };
     }
     ///Float32 - Little Endian (DCBA)
     get getFloat32DCBA() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_ABCD.getFloat32(i * 4, true);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewABCD.getFloat32(i * 4, true);
         }
         return {
-            hex: this.DCBA(this._HexText).match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText.mirror(8).format(8),
             value: arr
         };
     }
     ///Float32 - Mid-Big Endian (BADC)
     get getFloat32BADC() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_BADC.getFloat32(i * 4, false);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewBADC.getFloat32(i * 4, false);
         }
         return {
-            hex: this._HexText2.match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText2.format(8),
             value: arr
         };
     }
     ///Float32 - Mid-Little Endian (CDAB)
     get getFloat32CDAB() {
         let arr = [];
-        for (let i = 0; i < this.DwordsCount; i++) {
-            arr[i] = this._view_BADC.getFloat32(i * 4, true);
+        for (let i = 0; i < this._dwordsCount; i++) {
+            arr[i] = this._viewBADC.getFloat32(i * 4, true);
         }
         return {
-            hex: this.DCBA(this._HexText2).match(/(.{8})/g).map(part => part.match(/(.{2})/g).join(" ")),
+            hex: this._HexText2.mirror(8).format(8),
             value: arr
         };
     }
