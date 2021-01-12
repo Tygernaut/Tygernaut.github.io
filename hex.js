@@ -1,19 +1,14 @@
 class HEX {
     even = n => !(n % 2); //проверка на четность
-    BADC = s => {
-        return s.match(/(.{4})/g).map(part => part.match(/(.{2})/g).reverse().join("")).join("");
-    };
-    DCBA = s => {
-        return s.match(/(.{8})/g).map(part => part.match(/(.{2})/g).reverse().join("")).join("");
-    };
     constructor(HexStringInput) {
         //Formats a string in a group of n characters
-        String.prototype.format=function(n){
-            let pattern=new RegExp("(.{"+n+"})","g");
-            return this.match(pattern).map(part => part.match(/(.{2})/g).join(" "))};
+        String.prototype.format = function (n) {
+            let pattern = new RegExp("(.{" + n + "})", "g");
+            return this.match(pattern).map(part => part.match(/(.{2})/g).join(" "))
+        };
         //Splits string by n characters and reverse 2-chars group inside substrings.
-        String.prototype.mirror=function(n){
-            let pattern=new RegExp("(.{"+n+"})","g");
+        String.prototype.mirror = function (n) {
+            let pattern = new RegExp("(.{" + n + "})", "g");
             return this.match(pattern).map(part => part.match(/(.{2})/g).reverse().join("")).join("");
         }
         //Big Endian    (false)
@@ -22,20 +17,22 @@ class HEX {
         this.CDABbuffer = null; //Mid-Little Endian (true)
         this._viewABCD = null;
         this._viewBADC = null;
-        this._HexText = HexStringInput;
-        this._HexText2 = '';
+        this._hexText = HexStringInput;
+        this._hexText2 = '';
         this._wordArrayABCD = [];
         this._wordArrayBADC = [];
+        this._bytesCount = 0;
         this._wordsCount = 0;
         this._dwordsCount = 0;
         this._analyze();
         //Formats a string in a group of n characters
-        String.prototype.format=function(n){
-            let pattern=new RegExp("(.{"+n+"})","g");
-            return this.match(pattern).map(part => part.match(/(.{2})/g).join(" "))};
+        String.prototype.format = function (n) {
+            let pattern = new RegExp("(.{" + n + "})", "g");
+            return this.match(pattern).map(part => part.match(/(.{2})/g).join(" "))
+        };
         //Splits string by n characters and reverse 2-chars group inside substrings.
-        String.prototype.mirror=function(n){
-            let pattern=new RegExp("(.{"+n+"})","g");
+        String.prototype.mirror = function (n) {
+            let pattern = new RegExp("(.{" + n + "})", "g");
             return this.match(pattern).map(part => part.match(/(.{2})/g).reverse().join("")).join("");
         }
     }
@@ -43,28 +40,28 @@ class HEX {
     /*!!!!*/
     //check the validity of input string
     _checkString() {
-        this._HexText = this._HexText.toUpperCase();
-        this._HexText = this._HexText.replace(/[^A-F0-9]/g, "");
-        return this._HexText.length;
+        this._hexText = this._hexText.toUpperCase();
+        this._hexText = this._hexText.replace(/[^A-F0-9]/g, "");
+        return this._hexText.length;
     }
 
     //
     _analyze() {
         if (this._checkString()) { //проверка на валидность строки
             this._normalize();
-            this._wordArrayABCD = this._HexText.match(/(.{2})/g).map(
+            this._wordArrayABCD = this._hexText.match(/(.{2})/g).map(
                 (el) => {
                     return parseInt(el, 16);
                 }
             );
-            this._HexText2 = this._HexText.mirror(4);
-            this._wordArrayBADC = this._HexText2.match(/(.{2})/g).map(
+            this._hexText2 = this._hexText.mirror(4);
+            this._wordArrayBADC = this._hexText2.match(/(.{2})/g).map(
                 (el) => {
                     return parseInt(el, 16);
                 }
             );
             //мой метод дополнения нулей перед числом.
-            //this._HexText="0".repeat((4-this._HexText.length%4)<4?(4-this._HexText.length%4):0)+this._HexText;
+            //this._hexText="0".repeat((4-this._hexText.length%4)<4?(4-this._hexText.length%4):0)+this._hexText;
 
             this._dwordsCount = this._wordArrayABCD.length / 4;
 
@@ -79,44 +76,53 @@ class HEX {
 
     _normalize() {
         //добавление нулей для нечетного числа символов
-        if (!this.even(this._HexText.length)) {
-            this._HexText = "0" + this._HexText;
+        if (!this.even(this._hexText.length)) {
+            this._hexText = "0" + this._hexText;
         }
+        this._bytesCount = this._hexText.length / 2;
         //добавление нулей для недостающих word
-        if (this._HexText.length % 4) {
-            this._HexText += "00";
+        if (this._hexText.length % 4) {
+            this._hexText += "00";
         }
-        this._wordArrayABCD = this._HexText.match(/(.{4})/g).map(
+        this._wordArrayABCD = this._hexText.match(/(.{4})/g).map(
             (el) => {
                 return parseInt(el, 16);
             }
         );
         this._wordsCount = this._wordArrayABCD.length;
         //добавление нулей для недостающих DWord
-        if (this._HexText.length % 8) {
-            this._HexText += "0000";
+        if (this._hexText.length % 8) {
+            this._hexText += "0000";
         }
 
     }
 
     /// get words count
-    get wordsCount(){
+    get wordsCount() {
         return this._wordsCount;
     }
     ///get double words count
-    get dwordsCount(){
+    get dwordsCount() {
         return this._dwordsCount;
     }
     ///Get Hex String
     get getHexString() {
-        return this._HexText.match(/(.{2})/g).join(" ");
+        return this._hexText.match(/(.{2})/g).join("\t");
     }
 
     ///Get Dec String
-    get getDecString(){
-        return this._HexText.match(/(.{2})/g).map(el => parseInt(el, 16)).join(" ");
+    get getDecString() {
+        return this._hexText.match(/(.{2})/g).map((el) => {
+            let dec = parseInt(el, 16);
+            let sdec = String(dec);
+            return "0".repeat((3 - sdec.length % 3) < 3 ? (3 - sdec.length % 3) : 0) + sdec
+        }).join("\t");
     }
 
+    ///Get ASCII
+    get getASCII() {
+        return this.getUint8.value.map(el => String.fromCharCode(el)).join("");
+    }
     ///Binary
     get getBinary() {
         let arr = [];
@@ -125,10 +131,22 @@ class HEX {
             arr[i] = ("0".repeat(16 - arr[i].length) + arr[i]).match(/(.{8})/g).join(" ");
         }
         return {
-            hex: this._HexText.format(4),
+            hex: this._hexText.format(4),
             value: arr
         };
     }
+    //UINT8
+    get getUint8() {
+        let arr = [];
+        for (let i = 0; i < this._bytesCount; i++) {
+            arr[i] = this._viewABCD.getUint8(i, false);
+        }
+        return {
+            hex: this._hexText.format(2),
+            value: arr
+        };
+    }
+
     ///UINT16 - Big Endian (AB)
     get getUint16AB() {
         let arr = [];
@@ -136,7 +154,7 @@ class HEX {
             arr[i] = this._viewABCD.getUint16(i * 2, false);
         }
         return {
-            hex: this._HexText.format(4),
+            hex: this._hexText.format(4),
             value: arr
         };
     }
@@ -147,7 +165,7 @@ class HEX {
             arr[i] = this._viewABCD.getUint16(i * 2, true);
         }
         return {
-            hex: this._HexText.mirror(4).format(4),
+            hex: this._hexText.mirror(4).format(4),
             value: arr
         };
     }
@@ -158,7 +176,7 @@ class HEX {
             arr[i] = this._viewABCD.getInt16(i * 2, false);
         }
         return {
-            hex: this._HexText.format(4),
+            hex: this._hexText.format(4),
             value: arr
         };
     }
@@ -169,7 +187,7 @@ class HEX {
             arr[i] = this._viewABCD.getInt16(i * 2, true);
         }
         return {
-            hex: this._HexText.mirror(4).format(4),
+            hex: this._hexText.mirror(4).format(4),
             value: arr
         };
     }
@@ -180,7 +198,7 @@ class HEX {
             arr[i] = this._viewABCD.getUint32(i * 4, false);
         }
         return {
-            hex: this._HexText.format(8),
+            hex: this._hexText.format(8),
             value: arr
         };
     }
@@ -191,7 +209,7 @@ class HEX {
             arr[i] = this._viewABCD.getUint32(i * 4, true);
         }
         return {
-            hex: this._HexText.mirror(8).format(8),
+            hex: this._hexText.mirror(8).format(8),
             value: arr
         };
     }
@@ -202,7 +220,7 @@ class HEX {
             arr[i] = this._viewBADC.getUint32(i * 4, false);
         }
         return {
-            hex: this._HexText2.format(8),
+            hex: this._hexText2.format(8),
             value: arr
         };
     }
@@ -213,7 +231,7 @@ class HEX {
             arr[i] = this._viewBADC.getUint32(i * 4, true);
         }
         return {
-            hex: this._HexText2.mirror(8).format(8),
+            hex: this._hexText2.mirror(8).format(8),
             value: arr
         };
     }
@@ -224,7 +242,7 @@ class HEX {
             arr[i] = this._viewABCD.getInt32(i * 4, false);
         }
         return {
-            hex: this._HexText.format(8),
+            hex: this._hexText.format(8),
             value: arr
         };
     }
@@ -235,7 +253,7 @@ class HEX {
             arr[i] = this._viewABCD.getInt32(i * 4, true);
         }
         return {
-            hex: this._HexText.mirror(8).format(8),
+            hex: this._hexText.mirror(8).format(8),
             value: arr
         };
     }
@@ -246,7 +264,7 @@ class HEX {
             arr[i] = this._viewBADC.getInt32(i * 4, false);
         }
         return {
-            hex: this._HexText2.format(8),
+            hex: this._hexText2.format(8),
             value: arr
         };
     }
@@ -257,7 +275,7 @@ class HEX {
             arr[i] = this._viewBADC.getInt32(i * 4, true);
         }
         return {
-            hex: this._HexText2.mirror(8).format(8),
+            hex: this._hexText2.mirror(8).format(8),
             value: arr
         };
     }
@@ -268,7 +286,7 @@ class HEX {
             arr[i] = this._viewABCD.getFloat32(i * 4, false);
         }
         return {
-            hex: this._HexText.format(8),
+            hex: this._hexText.format(8),
             value: arr
         };
     }
@@ -279,7 +297,7 @@ class HEX {
             arr[i] = this._viewABCD.getFloat32(i * 4, true);
         }
         return {
-            hex: this._HexText.mirror(8).format(8),
+            hex: this._hexText.mirror(8).format(8),
             value: arr
         };
     }
@@ -290,7 +308,7 @@ class HEX {
             arr[i] = this._viewBADC.getFloat32(i * 4, false);
         }
         return {
-            hex: this._HexText2.format(8),
+            hex: this._hexText2.format(8),
             value: arr
         };
     }
@@ -301,7 +319,7 @@ class HEX {
             arr[i] = this._viewBADC.getFloat32(i * 4, true);
         }
         return {
-            hex: this._HexText2.mirror(8).format(8),
+            hex: this._hexText2.mirror(8).format(8),
             value: arr
         };
     }
