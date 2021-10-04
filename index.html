@@ -19,7 +19,18 @@
             padding: 0;
             background: #FFFFFF;
         }
-
+        .button {
+            background-color: #96A7B1;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
         .content {
             flex-grow: 1;
         }
@@ -370,8 +381,8 @@ border-radius: 20px;*/
                     style='width: 49%;resize: none;'></textarea><textarea id="parsedHex" cols="50" id="Hex"
                     maxlength="2048" name="HexString" rows="10" style='width: 49%;resize: none;'
                     readonly></textarea><br>
-                <span style="display: inline-block;padding:3px;width: 49%"><input type="button" value="Analyze"
-                        id="button"></span><input name="num" type="button" checked id="hexRadio" value="HEX"
+                <span style="display: inline-block;padding:3px;width: 49%"><input type="button" class="button" value="Analyze"
+                        id="button"></span><input name="num" class="button" type="button" checked id="hexRadio" value="HEX"
                     onclick="showParse(this);">
             </div>
             <div class="panel" id="result">
