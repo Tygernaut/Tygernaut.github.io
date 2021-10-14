@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0047)file:///C:/Users/a.chernih/Desktop/DefPass.html -->
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
     <title>Def Pass</title>
     <style>
                       html {
@@ -181,6 +179,10 @@
       src="./DefPAss_files/hex.js.Без названия"
       type="text/javascript"
     ></script>
+    <script
+    src="./DefPAss_files/data.js"
+    type="text/javascript"
+  ></script>
   </head>
 
   <body>
@@ -644,7 +646,7 @@
         </div>
 
         <div id="models">
-          <table>
+          <table id="device_table">
             <tr>
               <th>Model</th>
               <th>login</th>
@@ -715,5 +717,35 @@
       </div>
     </div>
     <!--  <footer></footer> -->
+    <script>
+      devi=document.getElementById("device_table");
+        devi.innerHTML="<tr><th>Model</th><th>login</th><th>password</th></tr>";
+      function getDevice(id){
+        devi=document.getElementById("device_table");
+        devi.innerHTML="<tr><th>Model</th><th>login</th><th>password</th></tr>";
+        fetch('http://q95114zj.bget.ru/defpass.php?m=getDevices&param='+id)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        data.forEach(function(item, i, arr) {
+          devi.innerHTML+="<tr><td>"+item.model+"</td><td>"+item.login+"</td><td>"+item.password+"</td></tr>";
+         // console.log("<tr><td>"+item.model+"</td><td>"+item.login+"</td><td>"+item.password+"</td></tr>");
+        });
+      });
+      }
+      manu=document.getElementById("manu_table");
+      manu.innerHTML="<tr><th>Manufacturer</th></tr>";
+      fetch('http://q95114zj.bget.ru/defpass.php?m=getManufaturers')
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        data.forEach(function(item, i, arr) {
+          manu.innerHTML+="<tr><td onClick='getDevice("+item.id+")'>"+item.name+"</td></tr>"
+          console.log(item);
+        });
+      });
+      </script>
   </body>
 </html>
