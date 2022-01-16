@@ -718,7 +718,13 @@
     </div>
     <!--  <footer></footer> -->
     <script>
-      devi=document.getElementById("device_table");
+      let script = document.createElement('SCRIPT');
+script.src = "http://q95114zj.bget.ru/defpass.php?m=getManufaturers";
+document.getElementsByTagName("head")[0].appendChild(script);
+function callbackFunc(result) {
+console.log(result);
+}
+    /*  devi=document.getElementById("device_table");
         devi.innerHTML="<tr><th>Model</th><th>login</th><th>password</th></tr>";
       function getDevice(id){
         devi=document.getElementById("device_table");
@@ -745,7 +751,7 @@
           manu.innerHTML+="<tr><td onClick='getDevice("+item.id+")'>"+item.name+"</td></tr>"
           console.log(item);
         });
-      });
+      });*/
       </script>
   </body>
 </html>
