@@ -31,6 +31,8 @@ function callbackFunc(result) {
     }
     img = document.createElement('img');
     img.src = result.response.items[0].sizes[9].url;
+    let br = document.createElement('br');
+  document.getElementById('main').appendChild(br);
     document.getElementById('main').appendChild(img);
 
 }
