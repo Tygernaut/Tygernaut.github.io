@@ -22,9 +22,11 @@ function callbackFunc(result) {
     img.src = result.response.items[1].sizes[9].url;
     document.getElementById('main').appendChild(img);
     for (let i=2;i<result.response.items.length;i++){
-        console.log(result.response.items[i]);
+        //console.log(result.response.items[i]);
+      let br = document.createElement('br');
         let img = document.createElement('img');
         img.src = result.response.items[i].sizes[9].url;
+      document.getElementById('main').appendChild(br);
         document.getElementById('main').appendChild(img);
     }
     img = document.createElement('img');
