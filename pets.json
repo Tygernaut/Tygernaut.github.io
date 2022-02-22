@@ -1,0 +1,9 @@
+{
+  "pets" : [
+    {
+      "folder" : "test",
+      "author" : "test",
+      "lastupdate" : "2019-03-04"
+    }
+  ]
+}
