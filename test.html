@@ -1,0 +1,11 @@
+
+<!--Trend container in which the plotly trend will be displayed-->
+<div id="trend"></div>
+<!--Script that will create the JavaScript trend and connect it to your WinCC OA values-->
+<script>
+    oaJsApi.dpGet('System1:x0BYA01_A1-1.state.value:_original.._value', 
+      {  success: function (data){alert("DP Value: " + data);}
+          
+        }
+    );
+    </script>
