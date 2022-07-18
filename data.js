@@ -37,4 +37,16 @@ const data = [
             }
         ]
     }
+        {
+        "id": 4,
+        "name": "Hirschmann",
+        "devices": [
+            {
+                "id": 1,
+                "model": "MSP30",
+                "login": "admin",
+                "password": "private"
+            }
+        ]
+    }
 ]
