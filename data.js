@@ -36,8 +36,8 @@ const data = [
                 "password": "calvin"
             }
         ]
-    }
-        {
+    },
+    {
         "id": 4,
         "name": "Hirschmann",
         "devices": [
