@@ -1,95 +1,108 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,300,400,500"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        margin: 0;
-        padding: 0;
-        border: 0;
-        top: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        text-align: center;
-        overflow: auto;
-        background: rgb(10, 10, 3);
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,300,400,500" rel="stylesheet" />
+  <style>
+    body {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      text-align: center;
+      overflow: auto;
+      background: rgb(10, 10, 3);
+    }
+
+    @keyframes blink {
+      from {
+        opacity: 1;
       }
-      @keyframes blink {
-        from {
-          opacity: 1;
-        }
-        to {
-          opacity: 0;
-        }
+
+      to {
+        opacity: 0;
       }
-      #mainscreen {
-        width: 100%;
-        height: 100%;
-        margin: 0 auto;
-        border: 0;
-        display: flex;
-        display: -webkit-flex;
-        align-items: center;
-        -webkit-align-items: center;
-        justify-content: center;
-        -webkit-align-items: center;
-      }
-      #wrapper {
-        /*top: 50%;*/
-        margin: 0 auto;
-        /*left: 20%;*/
-        font-family: 'Roboto Mono', monospace;
-        /*display: flex;*/
-        text-align: justify;
-        width: 699px;
-        height: 300px;
-        line-height: 1.7;
-        font-weight: 300;
-        color: rgb(120, 73, 1);
-        text-shadow: 0 0px rgba(0, 0, 0, 0.3), 0 0 5px rgb(120, 73, 1),
-          0 0 8px #fff;
-        color: rgb(196, 150, 75); /*#C4964B*/
-        position: absolute;
-      }
-      #s {
-        display: inline-block;
-      }
-      #cross-x {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 2px;
-        /*height: 100%;*/
-        background-color: rgb(196, 150, 75);
-        box-shadow: 0px 0px 20px white;
-        /*animation: blink 2s infinite;*/
-      }
-      
-      #cross-y {
-        position: absolute;
-        top: 0;
-        left: 0;
-        /* width: 100%;*/
-        height: 2px;
-        background-color: rgb(196, 150, 75);
-        box-shadow: 0px 0px 20px white;
-        /*animation: blink 2s infinite;*/
-      }
-      .animate{
-        animation: blink 0.5s infinite;
-      }
-      /*div {
+    }
+
+    #mainscreen {
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      border: 0;
+      display: flex;
+      display: -webkit-flex;
+      align-items: center;
+      -webkit-align-items: center;
+      justify-content: center;
+      -webkit-align-items: center;
+    }
+
+    #wrapper {
+      /*top: 50%;*/
+      margin: 0 auto;
+      /*left: 20%;*/
+      font-family: 'Roboto Mono', monospace;
+      /*display: flex;*/
+      text-align: justify;
+      width: 699px;
+      height: 300px;
+      line-height: 1.7;
+      font-weight: 300;
+      font-size: 18px;
+      color: rgb(120, 73, 1);
+      text-shadow: 0 0px rgba(0, 0, 0, 0.3), 0 0 5px rgb(120, 73, 1),
+        0 0 8px #fff;
+      color: rgb(196, 150, 75);
+      /*#C4964B*/
+      position: absolute;
+      /*direction:rtl;*/
+    }
+
+    #s {
+      display: inline-block;
+    }
+
+    #cross {
+      position: absolute;
+      /* drop-shadow: 0px 0px 20px white;*/
+      filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
+      animation: blink 0.5s infinite;
+    }
+
+    .cross-x-big {
+      position: absolute;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background-color: rgb(196, 150, 75);
+      box-shadow: 0px 0px 20px white;
+    }
+
+    .cross-y-big {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: rgb(196, 150, 75);
+      box-shadow: 0px 0px 20px white;
+    }
+
+
+    .animate {
+      animation: blink 0.5s infinite;
+    }
+
+    /*div {
       margin: 0;
       border: solid;
       border-radius: 30px;
@@ -97,85 +110,127 @@
       color: white;
     }*/
 
-      a {
-        color: white;
-        text-decoration: none;
-      }
-    </style>
-  </head>
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
 
-  <body>
-    <div id="cross-x"></div>
-    <div id="cross-y"></div>
-    <div id="mainscreen">
-      <div id="wrapper"></div>
-    </div>
-    <script type="text/javascript">
-      function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
-      let rect2 = {}
-      const screenWidth = window.screen.width
-      const screenHeight = window.screen.height
-      let cross = document.getElementById('cross-x')
-      cross.style.height = screenHeight * 2 + 'px'
-      let crossy = document.getElementById('cross-y')
-      crossy.style.width = screenWidth * 2 + 'px'
-      let end = document.createElement('span')
-      end.id = 's'
-      var i = 0
-      var txt =
-        '>login : Tigernauts\n\
-        >password : ***********\n\
-        \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur nibh vitae eleifend bibendum. Phasellus dapibus ullamcorper dictum. Ut pellentesque, purus sed sollicitudin maximus, lacus sapien auctor nibh, ut faucibus sem libero eget justo. In sodales, turpis eget accumsan aliquam, eros est malesuada purus, sit amet pulvinar nulla neque id odio. Duis sed nibh sed tellus elementum tristique. Suspendisse euismod sapien consectetur, ultricies orci id, iaculis purus. Nulla fermentum risus augue, a sodales arcu lacinia vitae.\n\n\n\n' /* Текст */
-      var speed = 50 /* Скорость/длительность эффекта в миллисекундах */
+<body>
 
-      function typeWriter() {
-        if (i < txt.length) {
-          let el = document.getElementById('wrapper')
-          if (txt.charAt(i) == '\n') {
-            el.innerHTML += '<br>'
-          } else {
-           // sleep(1000);
-           // el.innerHTML += Math.random().toString(36).slice(2, 3);//txt.charAt(i); 
-           // sleep(1000);
-           // el.innerHTML=el.innerHTML.slice(0, -1)
-            el.innerHTML+=txt.charAt(i);
-          }
-          el.appendChild(end)
-
-          let rect = end.getBoundingClientRect()
-          for (const key in rect) {
-            cross.style.left = rect.x + 'px'
-            cross.style.top = rect.y - screenHeight + 'px'
-            crossy.style.left = rect.x - screenWidth + 'px'
-            crossy.style.top = rect.y + 2 + 'px'
-            //console.log(rect.x)
-            rect2.x = rect.x
-            rect2.y = rect.y
-          }
-          //}
-
-          i++
-          el.removeChild(end)
-          setTimeout(typeWriter, speed)
-        } else {
-          cross.style.height = 80 + 'px'
-          crossy.style.width = 80 + 'px'
-          cross.style.left = rect2.x + 'px'
-          cross.style.top = rect2.y - 40 + 'px'
-          crossy.style.left = rect2.x - 40 + 'px'
-          crossy.style.top = rect2.y + 2 + 'px'
-          cross.style.animation = 'blink 0.5s infinite'
-          crossy.style.animation = 'blink 0.5s infinite'
+  <div id="cross-x" class="cross-x-big"></div>
+  <div id="cross-y" class="cross-y-big"></div>
+  <svg id="cross" xmlns="http://www.w3.org/2000/svg" height="36px" width="36px" viewBox="0 0 36 36">
+    <defs>
+      <style>
+        .a {
+          fill: none;
+          stroke: #c4964a;
+          stroke-miterlimit: 10;
         }
-      }
-      typeWriter()
-    </script>
-  </body>
-</html>
+      </style>
+    </defs>
+    <title>cross</title>
+    <line class="a" x1="18" x2="18" y2="36" />
+    <line class="a" y1="18" x2="36" y2="18" />
+  </svg>
+  <div id="mainscreen">
+    <div id="wrapper"></div>
+  </div>
+  <script type="text/javascript">
+    isbig = true
+    function sleep(milliseconds) {
+      const date = Date.now()
+      let currentDate = null
+      do {
+        currentDate = Date.now()
+      } while (currentDate - date < milliseconds)
+    }
 
+
+    function big_cross() {
+      cross_x.style.height = "100%"
+      cross_y.style.width = "100%"
+    }
+    function showblink() {
+      cross_x.style.visibility = "hidden";
+      cross_y.style.visibility = "hidden";
+      cross.style.visibility = "visible";
+    }
+    function hideblink() {
+      cross_x.style.visibility = "visible";
+      cross_y.style.visibility = "visible";
+      cross.style.visibility = "hidden";
+    }
+    let rect2 = {}
+    const screenWidth = window.screen.width
+    const screenHeight = window.screen.height;
+    let cross = document.getElementById("cross");
+    let cross_x = document.getElementById('cross-x')
+    cross_x.style.height = screenHeight * 4 + 'px'
+    let cross_y = document.getElementById('cross-y')
+    cross_y.style.width = screenWidth * 4 + 'px'
+    let end = document.createElement('span')
+    end.id = 's'
+    var i = 0
+    var txt =
+      '\b>login : \r\t\tTigernauts\n\b>password : \r\t\t **************************\b\n\n\n\r\t\v\bWake up tyger.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit.\r\t\b Duis efficitur nibh vitae eleifend bibendum. Phasellus dapibus ullamcorper dictum. Ut pellentesque, purus sed sollicitudin maximus, lacus sapien auctor nibh, ut faucibus sem libero eget justo. In sodales, turpis eget accumsan aliquam, eros est malesuada purus, sit amet pulvinar nulla neque id odio. Duis sed nibh sed tellus elementum tristique. Suspendisse euismod sapien\n\n\r' /* Текст */
+    var speed = 50 /* Скорость/длительность эффекта в миллисекундах */
+    showblink();
+    function typeWriter() {
+      if (i < txt.length) {
+        let el = document.getElementById('wrapper')
+        switch (txt.charAt(i)) {
+          case '\n':
+            el.innerHTML += '<br>'
+            console.log('br')
+            break
+          case '\t':
+            sleep(1000)
+            break
+          case '\r':
+            showblink();
+            break
+          case '\b':
+            hideblink();
+            break;
+          case '\v': el.innerHTML="";
+            break;
+          default:
+            el.innerHTML += txt.charAt(i)
+        }
+        el.appendChild(end)
+
+        let rect = end.getBoundingClientRect()
+        for (const key in rect) {
+          cross_x.style.left = rect.x + 'px';
+          cross_y.style.top = rect.y + 2 + 'px';
+
+          cross.style.left = rect.x - 18 + 'px';
+          cross.style.top = rect.y - 16 + 'px';
+          rect2.x = rect.x
+          rect2.y = rect.y
+          /*cross_x.style.left = rect.x + 'px';
+          cross_x.style.top = rect.y - 18 + 'px';
+          cross_y.style.left = rect.x - 18 + 'px';
+          cross_y.style.top = rect.y + 2 + 'px';*/
+
+        }
+        //}
+
+        i++
+        el.removeChild(end)
+        setTimeout(typeWriter, speed)
+      } else {
+        //  cross_x.style.height = 80 + 'px'
+        //  cross_y.style.width = 80 + 'px'
+        cross.style.left = rect2.x - 18 + 'px';
+        cross.style.top = rect2.y - 16 + 'px';
+      }
+    }
+    typeWriter()
+  </script>
+</body>
+
+</html>
