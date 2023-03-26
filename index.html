@@ -22,6 +22,9 @@
       text-align: center;
       overflow: auto;
       background: rgb(10, 10, 3);
+      text-shadow: 0 0px rgba(0, 0, 0, 0.3), 0 0 5px rgb(120, 73, 1),
+        0 0 8px #fff;
+      color: rgb(196, 150, 75);
     }
 
     @keyframes blink {
@@ -40,6 +43,17 @@
       }
       to{
         filter: blur(0);
+      }
+    }
+
+    @keyframes showOn{
+      from{
+        width:0;
+        height:0;
+      }
+      to{
+        width:90%;
+        height:90%;
       }
     }
 
@@ -62,6 +76,7 @@
      /* filter: blur(2000px);*/
       /*animation: blur 5s;*/
       visibility: hidden;
+      z-index: -1;
     } 
     .unblur{
       visibility: visible;
@@ -91,7 +106,18 @@
       /*direction:rtl;*/
 
     }
+    #content{
+      position: fixed;
+      padding: 10px;
+      width: 0;
+      height: 0;
+      /*border: #c49649 1px solid;*/
+      background: rgb(10, 10, 3);
+      animation-fill-mode: forwards; 
+      text-overflow: clip;
+      overflow: hidden;
 
+    }
     #s {
       display: inline-block;
     }
@@ -129,11 +155,35 @@
       color: white;
       text-decoration: none;
     }
+    bottom{
+      position:fixed;
+      display: flex;
+      bottom: 0px;
+      width: 100%;
+      height: 50px;
+      flex-direction: row;
+      text-shadow: 0 0px rgba(0, 0, 0, 0.3), 0 0 5px rgb(120, 73, 1),
+        0 0 8px #fff;
+      color: rgb(196, 150, 75);
+      justify-content: space-between;
+    }
   </style>
 </head>
 
 <body>
+  <div id="content">
+    <br>
+    <br>
+    <br>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vitae tincidunt risus, a bibendum nunc. Phasellus luctus nulla ut ultricies lobortis. Etiam ac egestas diam. Cras lectus ipsum, facilisis pretium posuere a, ultricies vitae arcu. Nulla facilisi. Sed a sem accumsan justo ultricies consectetur eu non arcu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer quam nunc, aliquet ultricies commodo et, aliquam eget lorem. Proin imperdiet fermentum tellus, at volutpat metus. Nunc ac consectetur lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum dignissim, orci nec consequat venenatis, libero sapien tempus enim, sit amet convallis urna leo vel ligula. Nullam et quam urna.
 
+    Fusce volutpat commodo augue, ac aliquam sem tristique vitae. Curabitur ultrices enim lobortis lorem elementum, eu vulputate risus eleifend. Praesent ornare ante dignissim mauris viverra congue. Quisque lacinia porta pulvinar. Donec dictum metus felis, at lacinia ipsum maximus in. Nam blandit venenatis odio, rhoncus suscipit lectus elementum nec. Sed ac magna non risus imperdiet aliquet vitae ut arcu. Integer pellentesque lobortis tempus.
+    
+    Morbi mauris felis, luctus ut tempus sed, iaculis cursus purus. Nam a turpis tempus, dapibus ex ac, ullamcorper nibh. Ut sed urna felis. In consequat finibus urna, in suscipit massa lacinia et. Morbi commodo mattis accumsan. Nam vulputate aliquet augue ut lacinia. Ut quis fringilla lacus. Integer ultricies nisl sit amet rutrum bibendum.
+    
+    Nulla sodales urna a eros efficitur, a ullamcorper erat pellentesque. Nulla vel blandit mauris, sit amet molestie massa. Integer vel volutpat lacus. Suspendisse id mi metus. Donec id massa et lacus vulputate aliquam et non magna. In ullamcorper sit amet nisl id tempor. Sed condimentum varius sapien a tincidunt. Suspendisse scelerisque, dui a tempor volutpat, massa lorem vulputate sem, a commodo mi neque eu elit. Nulla venenatis lacus vitae consectetur semper. Integer auctor mollis sapien id blandit. Suspendisse urna nunc, pharetra nec turpis id, interdum vulputate justo. Donec ullamcorper tristique tellus, et vestibulum urna venenatis a. Curabitur non ipsum urna.
+    
+    Donec ac ex a mi elementum mollis et eget felis. Ut ut erat sem. Nulla leo leo, consectetur sit amet turpis viverra, aliquet tristique dolor. Aenean magna velit, cursus non dui ullamcorper, mollis aliquam odio. Morbi purus metus, accumsan id accumsan sed, porttitor a urna. Duis elit ligula, semper ac dapibus vel, cursus at nulla. Donec leo magna, dignissim eu bibendum in, blandit vitae arcu. Praesent tempus arcu nec blandit dapibus. Nullam id maximus tortor. Donec lorem dui, pretium eu pharetra non, consequat ut nibh. Aliquam scelerisque velit vel elit dictum maximus. Maecenas nec bibendum lacus. Nam turpis nunc, posuere a elit vel, porta cursus orci. Nam pharetra euismod feugiat. Aenean vestibulum interdum nulla eu sagittis.</div>
   <div id="cross-x" class="cross-x-big"></div>
   <div id="cross-y" class="cross-y-big"></div>
   <svg id="cross" xmlns="http://www.w3.org/2000/svg" height="36px" width="36px" viewBox="0 0 36 36">
@@ -230,6 +280,11 @@
       } while (currentDate - date < milliseconds)
     }
 
+    function pushToContent(){
+      let content=document.getElementById("content");
+      content.style.border="#c49649 1px solid";
+      content.style.animation="showOn 2s forwards";
+    }
 
     function big_cross() {
       cross_x.style.height = "100%"
@@ -261,7 +316,7 @@
     end.id = 's'
     var i = 0
     var txt =
-      '\b>login : \r\t\tTigernauts\n\b>password : \r\t\t **************************\n\r\t\t\v\bWake up tyger.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur nibh vitae eleifend bibendum. Phasellus dapibus ullamcorper dictum. Ut pellentesque, purus sed sollicitudin maximus, lacus sapien auctor nibh, ut faucibus sem libero eget justo. In sodales, turpis eget accumsan aliquam, eros est malesuada purus, sit amet pulvinar nulla neque id odio. Duis sed nibh sed tellus elementum tristique. Suspendisse euismod sapien\n\n\r' /* Текст */
+      '\b>login : \r\tTigernauts\n\b>password : \r\t **************************\n\r\t\v\bWake up tyger.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur nibh vitae eleifend bibendum. Phasellus dapibus ullamcorper dictum. Ut pellentesque, purus sed sollicitudin maximus, lacus sapien auctor nibh, ut faucibus sem libero eget justo. In sodales, turpis eget accumsan aliquam, eros est malesuada purus, sit amet pulvinar nulla neque id odio. Duis sed nibh sed tellus elementum tristique. Suspendisse euismod sapien\n\n\r' /* Текст */
     var speed = 35 /* Скорость/длительность эффекта в миллисекундах */
     showblink();
     function typeWriter() {
@@ -293,7 +348,7 @@
 
         let rect = end.getBoundingClientRect()
         for (const key in rect) {
-          console.log(rect.x, rect.y);
+         // console.log(rect.x, rect.y);
           cross_x.style.left = rect.x + 'px';
           cross_y.style.top = rect.y + 2 + 'px';
 
@@ -321,6 +376,14 @@
     }
     typeWriter()
   </script>
+  <bottom>
+    <div>
+      1
+    </div>
+    <div>
+      <a href="javascript:pushToContent()">>></a>
+    </div>
+  </bottom>
 </body>
 
 </html>
