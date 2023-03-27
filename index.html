@@ -47,6 +47,7 @@
     }
 
     @keyframes showOn{
+
       from{
         width:0;
         height:0;
@@ -54,6 +55,125 @@
       to{
         width:90%;
         height:90%;
+        /*padding: 10px;*/
+       /* border: #c49649 1px solid;*/
+      }
+    }
+    @keyframes content-hide{
+      from{
+        /*border: #c49649 1px solid;*/
+        width:90%;
+        height:90%;
+        padding: 10px;
+        
+      }
+      to{
+        width:0;
+        height:0;
+        padding: 0;
+        border: none;
+      }
+    }
+    @keyframes Vertical-content-left-show{
+      0%{
+        visibility: visible;
+      }
+      50%{
+        left:50%;
+      }
+      100%{
+        left:5%;
+        visibility: visible;
+      }
+    }
+    @keyframes Vertical-content-left-hide{
+      0%{
+        left:5%;
+        visibility: visible;
+      }
+      50%{
+        left:50%;
+      }
+      100%{
+        visibility: hidden;
+        left:0%;
+      }
+    }
+    @keyframes Vertical-content-right-show{
+      0%{
+        visibility: visible;
+      }
+      50%{
+        left:50%;
+      }
+      100%{
+        left:95%;
+        visibility: visible;
+      }
+    }
+    @keyframes Vertical-content-right-hide{
+      0%{ 
+        left:95%;
+        visibility: visible;
+      }
+      50%{
+        left:50%;
+      }
+      100%{
+        visibility: hidden;
+        left: 0;
+      }
+    }
+    @keyframes Horizontal-content-up-show{
+      0%{
+        visibility: visible;
+      }
+      50%{
+        top:50%;
+      }
+      100%{
+        top:5%;
+        visibility: visible;
+      }
+    }
+    @keyframes Horizontal-content-up-hide{
+      0%{
+        
+        top:5%;
+        visibility: visible;
+      }
+      50%{
+        top:50%;
+      }
+      100%{
+        top:0;
+        visibility: hidden;
+      }
+    }
+    @keyframes Horizontal-content-down-show{
+      0%{
+        visibility: visible;
+      }
+      50%{
+        top:50%;
+      }
+      100%{
+        top:95%;
+        visibility: visible;
+      }
+    }
+    @keyframes Horizontal-content-down-hide{
+      0%{
+        
+        top:95%;
+        visibility: visible;
+      }
+      50%{
+        top:50%;
+      }
+      100%{
+        top: 0;
+        visibility: hidden;
       }
     }
 
@@ -80,7 +200,7 @@
     } 
     .unblur{
       visibility: visible;
-      animation: blur 3s;
+      animation: blur 2s;
     }
     #logo {
       filter: drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.4));
@@ -108,7 +228,8 @@
     }
     #content{
       position: fixed;
-      padding: 10px;
+      margin: 0;
+      padding: 0;
       width: 0;
       height: 0;
       /*border: #c49649 1px solid;*/
@@ -116,6 +237,7 @@
       animation-fill-mode: forwards; 
       text-overflow: clip;
       overflow: hidden;
+     /* animation: showOn 1s 1s forwards;*/
 
     }
     #s {
@@ -167,11 +289,32 @@
       color: rgb(196, 150, 75);
       justify-content: space-between;
     }
+    #content-vert1{
+      left:0;
+      visibility: hidden;
+      /*animation: Vertical-content-left-show 2s forwards;*/
+    }
+    #content-vert2 {
+      left:0;
+      visibility: hidden;
+      /*animation: Vertical-content-right-show 2s forwards;*/
+    }
+    #content-hory1 {
+      top:0;
+      visibility: hidden;
+      /*animation: Horizontal-content-up-show 2s forwards;*/
+    }
+    #content-hory2 {
+      top:0;
+      visibility: hidden;
+      /*animation: Horizontal-content-down-show 2s forwards;*/
+    }
   </style>
 </head>
 
 <body>
   <div id="content">
+    <a href="javascript:closeContent()">X</a>
     <br>
     <br>
     <br>
@@ -186,6 +329,12 @@
     Donec ac ex a mi elementum mollis et eget felis. Ut ut erat sem. Nulla leo leo, consectetur sit amet turpis viverra, aliquet tristique dolor. Aenean magna velit, cursus non dui ullamcorper, mollis aliquam odio. Morbi purus metus, accumsan id accumsan sed, porttitor a urna. Duis elit ligula, semper ac dapibus vel, cursus at nulla. Donec leo magna, dignissim eu bibendum in, blandit vitae arcu. Praesent tempus arcu nec blandit dapibus. Nullam id maximus tortor. Donec lorem dui, pretium eu pharetra non, consequat ut nibh. Aliquam scelerisque velit vel elit dictum maximus. Maecenas nec bibendum lacus. Nam turpis nunc, posuere a elit vel, porta cursus orci. Nam pharetra euismod feugiat. Aenean vestibulum interdum nulla eu sagittis.</div>
   <div id="cross-x" class="cross-x-big"></div>
   <div id="cross-y" class="cross-y-big"></div>
+
+  <div id="content-vert1" class="cross-x-big"></div>
+  <div id="content-hory1" class="cross-y-big"></div>
+  <div id="content-vert2" class="cross-x-big"></div>
+  <div id="content-hory2" class="cross-y-big"></div>
+
   <svg id="cross" xmlns="http://www.w3.org/2000/svg" height="36px" width="36px" viewBox="0 0 36 36">
     <defs>
       <style>
@@ -281,14 +430,22 @@
     }
 
     function pushToContent(){
-      let content=document.getElementById("content");
-      content.style.border="#c49649 1px solid";
-      content.style.animation="showOn 2s forwards";
+      //content.style.border="#c49649 1px solid";
+      document.getElementById("content").style.animation="showOn 1s 1s forwards";
+      document.getElementById("content-vert1").style.animation="Vertical-content-left-show 2s forwards";
+      document.getElementById("content-vert2").style.animation="Vertical-content-right-show 2s forwards";
+      document.getElementById("content-hory1").style.animation="Horizontal-content-up-show 2s forwards";
+      document.getElementById("content-hory2").style.animation="Horizontal-content-down-show 2s forwards";
     }
-
-    function big_cross() {
-      cross_x.style.height = "100%"
-      cross_y.style.width = "100%"
+    function closeContent(){
+     /* let content=document.getElementById("content");
+      //content.style.border="#c49649 1px solid";
+      content.style.animation="Hide 1s forwards";*/
+      document.getElementById("content").style.animation="content-hide 1s forwards";
+      document.getElementById("content-vert1").style.animation="Vertical-content-left-hide 2s forwards";
+      document.getElementById("content-vert2").style.animation="Vertical-content-right-hide 2s forwards";
+      document.getElementById("content-hory1").style.animation="Horizontal-content-up-hide 2s forwards";
+      document.getElementById("content-hory2").style.animation="Horizontal-content-down-hide 2s forwards";
     }
     function showblink() {
       cross_x.style.visibility = "hidden";
@@ -320,7 +477,7 @@
     var speed = 35 /* Скорость/длительность эффекта в миллисекундах */
     showblink();
     function typeWriter() {
-      if (speed==3000){speed=35;}
+      if (speed==2000){speed=10;}
       if (i < txt.length) {
         let el = document.getElementById('wrapper')
         switch (txt.charAt(i)) {
@@ -339,7 +496,7 @@
           case '\v': el.innerHTML = "";
           logo.style.visibility="visible";
           logo.classList.add("unblur");
-          speed=3000;
+          speed=2000;
             break;
           default:
             el.innerHTML += txt.charAt(i)
@@ -374,7 +531,7 @@
         cross.style.top = rect2.y - 16 + 'px';
       }
     }
-    typeWriter()
+    typeWriter();
   </script>
   <bottom>
     <div>
