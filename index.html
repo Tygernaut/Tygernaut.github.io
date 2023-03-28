@@ -188,7 +188,7 @@
         -webkit-align-items: center;
         flex-direction: row;
       }
-      #center{
+      #center {
         display: flex;
         display: -webkit-flex;
         align-items: center;
@@ -197,7 +197,7 @@
         -webkit-align-items: center;
         flex-direction: column;
       }
-      #left{
+      #left {
         display: flex;
         display: -webkit-flex;
         align-items: center;
@@ -208,7 +208,7 @@
         width: 200px;
         height: 500px;
       }
-      #right{
+      #right {
         display: flex;
         display: -webkit-flex;
         align-items: center;
@@ -219,7 +219,7 @@
         width: 200px;
         height: 500px;
       }
-      .link{
+      .link-right,.link-left {
         padding: 5px;
         background-color: #c4964a;
         border-radius: 3px;
@@ -427,12 +427,12 @@
     </svg>
     <div id="mainscreen">
       <div id="left">
-        <div class="link">left 1</div>
-        <div class="link">left 2</div>
-        <div class="link">left 3</div>
-        <div class="link">left 4</div>
-        <div class="link">left 5</div>
-        <div class="link">left 6</div>
+        <div class="link-left"></div>
+        <div class="link-left"></div>
+        <div class="link-left"></div>
+        <div class="link-left"> 4</div>
+        <div class="link-left"> 5</div>
+        <div class="link-left"> 6</div>
       </div>
       <div id="center">
         <div id="logo-wrapper">
@@ -550,12 +550,12 @@
         <div id="wrapper"></div>
       </div>
       <div id="right">
-        <div class="link">right 1</div>
-        <div class="link">right 2</div>
-        <div class="link">right 3</div>
-        <div class="link">right 4</div>
-        <div class="link">right 5</div>
-        <div class="link">right 6</div>
+        <div class="link-right"> 1</div>
+        <div class="link-right"> 2</div>
+        <div class="link-right"> 3</div>
+        <div class="link-right"> 4</div>
+        <div class="link-right"> 5</div>
+        <div class="link-right"> 6</div>
       </div>
     </div>
 
@@ -584,8 +584,8 @@
       }
       function closeContent() {
         /* let content=document.getElementById("content");
-      //content.style.border="#c49649 1px solid";
-      content.style.animation="Hide 1s forwards";*/
+        //content.style.border="#c49649 1px solid";
+        content.style.animation="Hide 1s forwards";*/
         document.getElementById('content').style.animation =
           'content-hide 1s forwards'
         document.getElementById('content-vert1').style.animation =
@@ -625,6 +625,60 @@
         '\b>login : \r\tTigernauts\n\b>password : \r\t **************************\n\r\t\v\bWake up tyger.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur nibh vitae eleifend bibendum. Phasellus dapibus ullamcorper dictum. Ut pellentesque, purus sed sollicitudin maximus, lacus sapien auctor nibh, ut faucibus sem libero eget justo. In sodales, turpis eget accumsan aliquam, eros est malesuada purus, sit amet pulvinar nulla neque id odio. Duis sed nibh sed tellus elementum tristique. Suspendisse euismod sapien\n\r' /* Текст */
       var speed = 35 /* Скорость/длительность эффекта в миллисекундах */
       showblink()
+
+      /***********************************************
+       ***********************************************
+       ***********************************************/
+      let writer = (el, text, speed) => {
+        let cross_x = document.createElement('div')
+        let cross_y = document.createElement('div')
+        cross_x.style.position=cross_y.style.position="absolute";
+        cross_x.style.backgroundColor=cross_y.style.backgroundColor="rgb(196, 150, 75)";
+        cross_x.style.boxShadow=cross_y.style.boxShadow="0px 0px 20px white";
+        cross_y.style.left=0;
+        cross_x.style.top=0;
+        cross_x.style.width="1px";
+        cross_x.style.height="100%";
+        cross_y.style.height="1px";
+        cross_y.style.width="100%";
+        document.body.appendChild(cross_x);
+        document.body.appendChild(cross_y);
+        let i = 0
+        console.log(i);
+        //целеуказатель для перекрестия
+        let end = document.createElement('span')
+        end.style.display = 'inline-block'
+        let print = () => {
+          if (i < text.length) {
+            switch (txt.charAt(i)) {
+              case '\n':
+                el.innerHTML += '<br>'
+                break
+              default:
+                el.innerHTML += text.charAt(i)
+            }
+            //добавляем пустой элемент для указания координат перекрестия.
+            el.appendChild(end)
+            //получаем координаты
+            let rect = end.getBoundingClientRect()
+            //перемещаем перекрестие.
+            //console.log(rect.x, rect.y)
+            cross_x.style.left = rect.x + 'px'
+            cross_y.style.top = rect.y + 2 + 'px'
+            i++
+            el.removeChild(end)
+            setTimeout(print, speed)
+          }else{
+            document.body.removeChild(cross_x);
+            document.body.removeChild(cross_y);
+          }
+        }
+        print()
+      }
+      /***********************************************
+       ***********************************************
+       ***********************************************/
+
       function typeWriter() {
         if (speed == 2000) {
           speed = 10
@@ -649,6 +703,20 @@
               logo.style.visibility = 'visible'
               logo.classList.add('unblur')
               speed = 2000
+              Array.from(document.getElementsByClassName('link-left')).map((el, idx) =>
+            setTimeout(() => {
+              el.classList.add('unblur')
+              setTimeout(() => {writer(el,"hello",150)},2000);
+              
+            }, idx * 500),
+          )
+          Array.from(document.getElementsByClassName('link-right')).map((el, idx) =>
+            setTimeout(() => {
+              el.classList.add('unblur')
+              setTimeout(() => {writer(el,"hello",150)},2000);
+              
+            }, idx * 500),
+          )
               break
             default:
               el.innerHTML += txt.charAt(i)
@@ -666,9 +734,9 @@
             rect2.x = rect.x
             rect2.y = rect.y
             /*cross_x.style.left = rect.x + 'px';
-          cross_x.style.top = rect.y - 18 + 'px';
-          cross_y.style.left = rect.x - 18 + 'px';
-          cross_y.style.top = rect.y + 2 + 'px';*/
+            cross_x.style.top = rect.y - 18 + 'px';
+            cross_y.style.left = rect.x - 18 + 'px';
+            cross_y.style.top = rect.y + 2 + 'px';*/
           }
           //}
 
@@ -678,17 +746,18 @@
         } else {
           //  cross_x.style.height = 80 + 'px'
           //  cross_y.style.width = 80 + 'px'
-          cross.style.left = rect2.x - 18 + 'px';
-          cross.style.top = rect2.y - 16 + 'px';
-          Array.from(document.getElementsByClassName("link")).map((el,idx)=>setTimeout(()=>{el.classList.add('unblur')},idx*200) );
+          cross.style.left = rect2.x - 18 + 'px'
+          cross.style.top = rect2.y - 16 + 'px'
           
-         /* document.getElementById("left").classList.add('unblur');
-          
-      document.getElementById("right").classList.add('unblur');*/
+
+          /* document.getElementById("left").classList.add('unblur');
+
+        document.getElementById("right").classList.add('unblur');*/
         }
       }
       typeWriter();
-      
+      //let el2 = document.getElementById('wrapper')
+      //writer(el2, txt, 10)
     </script>
     <bottom>
       <div>
