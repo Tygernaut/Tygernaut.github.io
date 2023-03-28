@@ -226,7 +226,8 @@
         margin: 4px;
         width: 70px;
         color: black;
-        box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4)
+        box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4);
+        visibility: hidden;
       }
       #logo-wrapper {
         margin: 0 auto;
@@ -621,7 +622,7 @@
       end.id = 's'
       var i = 0
       var txt =
-        '\b>login : \r\tTigernauts\n\b>password : \r\t **************************\n\r\t\v\bWake up tyger.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur nibh vitae eleifend bibendum. Phasellus dapibus ullamcorper dictum. Ut pellentesque, purus sed sollicitudin maximus, lacus sapien auctor nibh, ut faucibus sem libero eget justo. In sodales, turpis eget accumsan aliquam, eros est malesuada purus, sit amet pulvinar nulla neque id odio. Duis sed nibh sed tellus elementum tristique. Suspendisse euismod sapien\n\n\r' /* Текст */
+        '\b>login : \r\tTigernauts\n\b>password : \r\t **************************\n\r\t\v\bWake up tyger.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur nibh vitae eleifend bibendum. Phasellus dapibus ullamcorper dictum. Ut pellentesque, purus sed sollicitudin maximus, lacus sapien auctor nibh, ut faucibus sem libero eget justo. In sodales, turpis eget accumsan aliquam, eros est malesuada purus, sit amet pulvinar nulla neque id odio. Duis sed nibh sed tellus elementum tristique. Suspendisse euismod sapien\n\r' /* Текст */
       var speed = 35 /* Скорость/длительность эффекта в миллисекундах */
       showblink()
       function typeWriter() {
@@ -677,11 +678,17 @@
         } else {
           //  cross_x.style.height = 80 + 'px'
           //  cross_y.style.width = 80 + 'px'
-          cross.style.left = rect2.x - 18 + 'px'
-          cross.style.top = rect2.y - 16 + 'px'
+          cross.style.left = rect2.x - 18 + 'px';
+          cross.style.top = rect2.y - 16 + 'px';
+          Array.from(document.getElementsByClassName("link")).map((el,idx)=>setTimeout(()=>{el.classList.add('unblur')},idx*200) );
+          
+         /* document.getElementById("left").classList.add('unblur');
+          
+      document.getElementById("right").classList.add('unblur');*/
         }
       }
-      typeWriter()
+      typeWriter();
+      
     </script>
     <bottom>
       <div>
