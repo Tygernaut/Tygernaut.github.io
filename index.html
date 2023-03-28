@@ -27,6 +27,9 @@
         text-shadow: 0 0px rgba(0, 0, 0, 0.3), 0 0 5px rgb(120, 73, 1),
           0 0 8px #fff;
         color: rgb(196, 150, 75);
+        font-family: 'Roboto Mono', monospace;
+        font-weight: 300;
+        font-size: 18px;
       }
 
       @keyframes blink {
@@ -197,36 +200,58 @@
         -webkit-align-items: center;
         flex-direction: column;
       }
-      #left {
+      #linkbox{
+        width: 699px;
         display: flex;
         display: -webkit-flex;
         align-items: center;
         -webkit-align-items: center;
-        justify-content: end;
+        justify-content: space-between;
         -webkit-align-items: center;
-        flex-direction: column;
-        width: 200px;
-        height: 500px;
+        flex-direction: row;
       }
-      #right {
+      #linkleft {
         display: flex;
         display: -webkit-flex;
         align-items: center;
         -webkit-align-items: center;
-        justify-content: end;
+        justify-content: start;
         -webkit-align-items: center;
         flex-direction: column;
         width: 200px;
-        height: 500px;
+      
       }
-      .link-right,.link-left {
+      #linkcenter{
+        display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        -webkit-align-items: center;
+        justify-content: start;
+        -webkit-align-items: center;
+        flex-direction: column;
+        width: 200px;
+      }
+      #linkright {
+        display: flex;
+        display: -webkit-flex;
+        align-items: center;
+        -webkit-align-items: center;
+        justify-content: start;
+        -webkit-align-items: center;
+        flex-direction: column;
+        width: 200px;
+        
+      }
+      .link-right,.link-left,.link-center {
         padding: 5px;
-        background-color: #c4964a;
+        font-family: 'Roboto Mono', monospace;
+        /*background-color: #c4964a;*/
+        min-height: 20px;
         border-radius: 3px;
         margin: 4px;
-        width: 70px;
-        color: black;
-        box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4);
+        min-width: 70px;
+        /*color: black;
+        box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4);*/
         visibility: hidden;
       }
       #logo-wrapper {
@@ -311,8 +336,9 @@
       }
 
       a {
-        color: white;
+        color: rgb(196, 150, 75);
         text-decoration: none;
+        border-bottom: 1px dashed rgb(196, 150, 75); 
       }
       bottom {
         position: fixed;
@@ -352,10 +378,7 @@
   <body>
     <div id="content">
       <a href="javascript:closeContent()">X</a>
-      <br />
-      <br />
-      <br />
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vitae
+      <!--Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vitae
       tincidunt risus, a bibendum nunc. Phasellus luctus nulla ut ultricies
       lobortis. Etiam ac egestas diam. Cras lectus ipsum, facilisis pretium
       posuere a, ultricies vitae arcu. Nulla facilisi. Sed a sem accumsan justo
@@ -396,7 +419,8 @@
       lorem dui, pretium eu pharetra non, consequat ut nibh. Aliquam scelerisque
       velit vel elit dictum maximus. Maecenas nec bibendum lacus. Nam turpis
       nunc, posuere a elit vel, porta cursus orci. Nam pharetra euismod feugiat.
-      Aenean vestibulum interdum nulla eu sagittis.
+      Aenean vestibulum interdum nulla eu sagittis.-->
+      <iframe src="https://tigernauts.github.io/hex" height="100%" width="100%"></iframe>
     </div>
     <div id="cross-x" class="cross-x-big"></div>
     <div id="cross-y" class="cross-y-big"></div>
@@ -426,14 +450,6 @@
       <line class="a" y1="18" x2="36" y2="18" />
     </svg>
     <div id="mainscreen">
-      <div id="left">
-        <div class="link-left"></div>
-        <div class="link-left"></div>
-        <div class="link-left"></div>
-        <div class="link-left"> 4</div>
-        <div class="link-left"> 5</div>
-        <div class="link-left"> 6</div>
-      </div>
       <div id="center">
         <div id="logo-wrapper">
           <svg
@@ -548,15 +564,25 @@
           </svg>
         </div>
         <div id="wrapper"></div>
+        <div id="linkbox">
+          <div id="linkleft">
+            <div class="link-left"></div>
+            <div class="link-left"></div>
+            <div class="link-left"></div>
+          </div>
+          <div id="linkcenter">
+            <div class="link-center"></div>
+            <div class="link-center"></div>
+            <div class="link-center"></div>
+          </div>
+          <div id="linkright">
+            <div class="link-right"></div>
+            <div class="link-right"></div>
+            <div class="link-right"></div>
+          </div>
+        </div>
       </div>
-      <div id="right">
-        <div class="link-right"> 1</div>
-        <div class="link-right"> 2</div>
-        <div class="link-right"> 3</div>
-        <div class="link-right"> 4</div>
-        <div class="link-right"> 5</div>
-        <div class="link-right"> 6</div>
-      </div>
+      
     </div>
 
     <script type="text/javascript">
@@ -568,7 +594,14 @@
           currentDate = Date.now()
         } while (currentDate - date < milliseconds)
       }
-
+      let createLink=(href)=>{
+        let a=document.createElement("a");
+        a.setAttribute('href',href);
+        return a;
+      }
+      let links=[
+        createLink('/hex')
+      ]
       function pushToContent() {
         //content.style.border="#c49649 1px solid";
         document.getElementById('content').style.animation =
@@ -622,7 +655,7 @@
       end.id = 's'
       var i = 0
       var txt =
-        '\b>login : \r\tTigernauts\n\b>password : \r\t **************************\n\r\t\v\bWake up tyger.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur nibh vitae eleifend bibendum. Phasellus dapibus ullamcorper dictum. Ut pellentesque, purus sed sollicitudin maximus, lacus sapien auctor nibh, ut faucibus sem libero eget justo. In sodales, turpis eget accumsan aliquam, eros est malesuada purus, sit amet pulvinar nulla neque id odio. Duis sed nibh sed tellus elementum tristique. Suspendisse euismod sapien\n\r' /* Текст */
+        '\b>login : \r\tTigernauts\n\b>password : \r\t **************************\n\r\v\bWake up tyger.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur nibh vitae eleifend bibendum. Phasellus dapibus ullamcorper dictum. Ut pellentesque, purus sed sollicitudin maximus, lacus sapien auctor nibh, ut faucibus sem libero eget justo. In sodales, turpis eget accumsan aliquam, eros est malesuada purus, sit amet pulvinar nulla neque id odio. Duis sed nibh sed tellus elementum tristique. Suspendisse euismod sapien\n\r' /* Текст */
       var speed = 35 /* Скорость/длительность эффекта в миллисекундах */
       showblink()
 
@@ -681,7 +714,7 @@
 
       function typeWriter() {
         if (speed == 2000) {
-          speed = 10
+          speed = 5
         }
         if (i < txt.length) {
           let el = document.getElementById('wrapper')
@@ -705,15 +738,31 @@
               speed = 2000
               Array.from(document.getElementsByClassName('link-left')).map((el, idx) =>
             setTimeout(() => {
-              el.classList.add('unblur')
-              setTimeout(() => {writer(el,"hello",150)},2000);
+              el.classList.add('unblur');
+              let el2 = links[0].cloneNode(true)
+              el.appendChild(el2)
+              console.log(el2);
+              setTimeout(() => {writer(el2,"HEX converter",150)},2500);
+              
+            }, idx * 500),
+          )
+          Array.from(document.getElementsByClassName('link-center')).map((el, idx) =>
+            setTimeout(() => {
+              el.classList.add('unblur');
+              let el2 = links[0].cloneNode(true)
+              el.appendChild(el2)
+              console.log(el2);
+              setTimeout(() => {writer(el2,"HEX converter",150)},2500);
               
             }, idx * 500),
           )
           Array.from(document.getElementsByClassName('link-right')).map((el, idx) =>
             setTimeout(() => {
-              el.classList.add('unblur')
-              setTimeout(() => {writer(el,"hello",150)},2000);
+              el.classList.add('unblur');
+              let el2 = links[0].cloneNode(true)
+              el.appendChild(el2)
+              console.log(el2);
+              setTimeout(() => {writer(el2,"HEX converter",150)},2500);
               
             }, idx * 500),
           )
