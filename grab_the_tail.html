@@ -5,9 +5,30 @@
   <meta charset="utf-8" />
   <title>Grab the tail!</title>
   <style>
+.anim {
+  color: #FA2A00;
+  outline: 10px dashed #F2D694;
+  box-shadow: 0 0 0 10px #FA2A00;
+  animation: 2s animateBorderTwo ease infinite;
+}
+
+@keyframes animateBorderTwo {
+  to {
+    outline-color: #FA2A00;
+    box-shadow: 0 0 0 10px #F2D694;
+  }
+}
     #main{
       text-align: center;
       line-height: 0;
+    }
+    #pay{
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 40px;
+      width: 90%;
+      text-align: center;
+      margin: 50px;
+      
     }
   </style>
   <script type="text/javascript">
@@ -40,7 +61,9 @@ function callbackFunc(result) {
 </head>
 
 <body>
-
+  <div id="pay" class="anim">
+    работа не оплачена
+  </div>
   <div id="main">
 
 
