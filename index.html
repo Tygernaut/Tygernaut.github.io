@@ -51,6 +51,23 @@
         }
       }
 
+      @keyframes blur3px {
+        from {
+          filter: blur(0);
+        }
+        to {
+          filter: blur(3px);
+        }
+      }
+      @keyframes unblur3px {
+        from {
+          filter: blur(3px);
+        }
+        to {
+          filter: blur(0);
+        }
+      }
+
       @keyframes showOn {
         from {
           width: 0;
@@ -270,14 +287,17 @@
       #logo {
         filter: drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.4));
       }
-
+      #quote{
+        text-align: justify;
+        width: 699px;
+      }
       #wrapper {
         /*top: 50%;*/
         margin: 0 auto;
         font-family: 'Roboto Mono', monospace;
         /*display: flex;*/
         /*align-items: flex-end;*/
-        text-align: start;
+        text-align:justify;
         width: 699px;
         height: 300px;
         line-height: 1.7;
@@ -462,6 +482,7 @@
 
     
     <div id="mainscreen">
+      
       <div id="center">
         <div id="logo-wrapper">
           <svg
@@ -575,7 +596,10 @@
             />
           </svg>
         </div>
-        <div id="wrapper"></div>
+        <div id="quote"></div>
+        <div id="wrapper">
+          
+        </div>
         <div id="linkbox">
           <div id="linkleft">
             <div class="link-left"></div>
@@ -598,6 +622,40 @@
     </div>
 
     <script type="text/javascript">
+      let quotes=[
+[["A tiger does not shout its tigritude, it acts."],["Wole Soyinka"]],
+[["Life is a tiger you have to grab by the tail, and if you don’t know the nature of the beast it will eat you up."],["Stephen King"]],
+[["Tiger watches and hunts; whereas, hyenas wait and wait, for their time, to reach rubbish left by the tiger; similarly, the fools wait, not the wise ones." ],["Ehsan Sehgal"]],
+[["If you rile a tiger, he's going to show his claws."],["Rob James-Collier"]],
+[["No man can tame a tiger into a kitten by stroking it." ],["Franklin D. Roosevelt"]],
+[["Those who foolishly sought power by riding the back of the tiger ended up inside." ],["John F. Kennedy"]],
+[["A tiger does not ignore or slight any small animal. The way he catches a mouse and catches and devours a cow are the same." ],["Shunryu Suzuki"]],
+[["A tiger never loses sleep over the opinion of sheep." ],["Ziad K. Abdelnour"]],
+[["The tiger lies low not from fear, but for aim." ],["Sherrilyn Kenyon"]],
+[["I feel like a tiger right now. There's nothing impossible if you get up and work for it." ],["Michael Flatley"]],
+[["Time is the substance from which I am made. Time is a river which carries me along, but I am the river; it is a tiger that devours me, but I am the tiger; it is a fire that consumes me, but I am the fire."],["Jorge Luis Borges"]],
+[["An infallible method of conciliating a tiger is to allow oneself to be devoured." ],["Konrad Adenauer"]],
+[["The tiger will never lie down with the lamb. He acknowledges no pact that is not reciprocal. The lamb must learn to run with the tigers." ],["Angela Carter"]],
+[["The impact of an attacking tiger can be compared to that of a piano falling on you from a second story window. But unlike the piano, the tiger is designed to do this, and the impact is only the beginning."],["John Vaillant"]],
+[["The most magnificent creature in the entire world the tiger is." ],["Jack Hanna"]],
+[["The tiger is a bellwether—one of the thousands of similarly vulnerable species, which are, at once, casualties of our success and symbols of our failure."],["John Vaillant"]],
+[["Tigers, except when wounded or when man-eaters, are on the whole very good-tempered." ],["Jim Corbett"]],
+[["When a man wants to murder a tiger he calls it sport; when a tiger wants to murder him he calls it ferocity."],["George Bernard Shaw"]],
+[["The Tiger in many countries, particularly India, represents the apex of the animal pyramid and the protection of their habitat should be a worldwide priority."],["Dr. Karan Singh"]],
+[["As humans, we are fortunate to fight to secure so many rights: men's rights, women's rights, freedom of speech. But animals like tigers are losing their right to live. It is time we all support their most fundamental right - the right to exist!"],["Gyalwa Dokhampa"]],
+[["The one certainty in tiger tracks is: follow them long enough and you will eventually arrive at a tiger, unless the tiger arrives at you first."],["John Vaillant"]],
+[["Young normal tigers do not eat people. If eaten by a tiger you may rest assured he was abnormal."],["Will Cuppy"]],
+[["If we choose to walk into a forest where a tiger lives, we are taking a chance."],["Peter Benchley"]],
+[["Van Gogh would’ve sold more than one painting if he’d put tigers in them."],["Bill Waterson"]],
+[["There is no off switch on a tiger."],["German Proverb"]],
+[["A tiger never returns to his prey he did not finish off."],["Chinese Proverb"]],
+[["Do not blame God for having created the tiger, but thank him for not having given it wings"],["Indian proverb"]],
+[["You may, if you like, free a tiger from his bars; but do not free him from his stripes."],["Gilbert K. Chesterton"]],
+[["The tigers of wrath are wiser than the horses of instruction."],["William Blake"]],
+[["If you’re losing a tug of war with a tiger, give it the rope. You can always buy a new one."],["Max Gunther"]],
+[["When two tigers fight, one is certain to be maimed, and one to die."],["Master Funakoshi"]],
+[["Life goes on and you don't touch tigers."],["Yann Martel"]]
+];
       isbig = true
       function sleep(milliseconds) {
         const date = Date.now()
@@ -673,7 +731,12 @@
         '\b>login : \r\tTigernauts\n\b>password : \r\t **************************\n\r\v\bWake up tyger.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur nibh vitae eleifend bibendum. Phasellus dapibus ullamcorper dictum. Ut pellentesque, purus sed sollicitudin maximus, lacus sapien auctor nibh, ut faucibus sem libero eget justo. In sodales, turpis eget accumsan aliquam, eros est malesuada purus, sit amet pulvinar nulla neque id odio. Duis sed nibh sed tellus elementum tristique. Suspendisse euismod sapien\n\r' /* Текст */
       var speed = 35 /* Скорость/длительность эффекта в миллисекундах */
       showblink()
-
+      let showContacts = ()=>{
+        document.getElementById("mainscreen").style.animation="blur3px 1s forwards"
+      }
+      let hideContacts = ()=>{
+        document.getElementById("mainscreen").style.animation="unblur3px 1s forwards"
+      }
       /***********************************************
        ***********************************************
        ***********************************************/
@@ -761,6 +824,10 @@
               
             }, idx * 500),
           )
+          setTimeout(() => {
+          writer(document.getElementById("quote"),quotes[Math.round(Math.random()*quotes.length)][0][0],35);
+          },500);
+
           Array.from(document.getElementsByClassName('link-center')).map((el, idx) =>
             setTimeout(() => {
               el.classList.add('unblur');
