@@ -39,7 +39,14 @@
           opacity: 0;
         }
       }
-
+      @keyframes blinkblur {
+        0% {
+          filter: drop-shadow(0px 0px 10px #ff9900);
+        }
+        100% {
+          filter: drop-shadow(0px 0px 20px #ff9900);
+        }
+      }
       @keyframes blur {
         from {
           filter: blur(2000px);
@@ -284,10 +291,17 @@
       }
       #logo {
         filter: drop-shadow(0px 0px 10px #ff9900);
+        animation: blinkblur 3s infinite alternate ;
       }
       #quote{
         text-align: justify;
         width: 699px;
+        min-height: 60px;
+      }
+      #author{
+        width: 699px;
+        text-align: right;
+        font-size: small;
       }
       #wrapper {
         /*top: 50%;*/
@@ -530,38 +544,38 @@
 
   <script type="text/javascript">
     let quotes = [
-      [["A tiger does not shout its tigritude, it acts."], ["Wole Soyinka"]],
-      [["Life is a tiger you have to grab by the tail, and if you don’t know the nature of the beast it will eat you up."], ["Stephen King"]],
-      [["Tiger watches and hunts; whereas, hyenas wait and wait, for their time, to reach rubbish left by the tiger; similarly, the fools wait, not the wise ones."], ["Ehsan Sehgal"]],
-      [["If you rile a tiger, he's going to show his claws."], ["Rob James-Collier"]],
-      [["No man can tame a tiger into a kitten by stroking it."], ["Franklin D. Roosevelt"]],
-      [["Those who foolishly sought power by riding the back of the tiger ended up inside."], ["John F. Kennedy"]],
-      [["A tiger does not ignore or slight any small animal. The way he catches a mouse and catches and devours a cow are the same."], ["Shunryu Suzuki"]],
-      [["A tiger never loses sleep over the opinion of sheep."], ["Ziad K. Abdelnour"]],
-      [["The tiger lies low not from fear, but for aim."], ["Sherrilyn Kenyon"]],
-      [["I feel like a tiger right now. There's nothing impossible if you get up and work for it."], ["Michael Flatley"]],
-      [["Time is the substance from which I am made. Time is a river which carries me along, but I am the river; it is a tiger that devours me, but I am the tiger; it is a fire that consumes me, but I am the fire."], ["Jorge Luis Borges"]],
-      [["An infallible method of conciliating a tiger is to allow oneself to be devoured."], ["Konrad Adenauer"]],
-      [["The tiger will never lie down with the lamb. He acknowledges no pact that is not reciprocal. The lamb must learn to run with the tigers."], ["Angela Carter"]],
-      [["The impact of an attacking tiger can be compared to that of a piano falling on you from a second story window. But unlike the piano, the tiger is designed to do this, and the impact is only the beginning."], ["John Vaillant"]],
-      [["The most magnificent creature in the entire world the tiger is."], ["Jack Hanna"]],
-      [["The tiger is a bellwether—one of the thousands of similarly vulnerable species, which are, at once, casualties of our success and symbols of our failure."], ["John Vaillant"]],
-      [["Tigers, except when wounded or when man-eaters, are on the whole very good-tempered."], ["Jim Corbett"]],
-      [["When a man wants to murder a tiger he calls it sport; when a tiger wants to murder him he calls it ferocity."], ["George Bernard Shaw"]],
-      [["The Tiger in many countries, particularly India, represents the apex of the animal pyramid and the protection of their habitat should be a worldwide priority."], ["Dr. Karan Singh"]],
-      [["As humans, we are fortunate to fight to secure so many rights: men's rights, women's rights, freedom of speech. But animals like tigers are losing their right to live. It is time we all support their most fundamental right - the right to exist!"], ["Gyalwa Dokhampa"]],
-      [["The one certainty in tiger tracks is: follow them long enough and you will eventually arrive at a tiger, unless the tiger arrives at you first."], ["John Vaillant"]],
-      [["Young normal tigers do not eat people. If eaten by a tiger you may rest assured he was abnormal."], ["Will Cuppy"]],
-      [["If we choose to walk into a forest where a tiger lives, we are taking a chance."], ["Peter Benchley"]],
-      [["Van Gogh would’ve sold more than one painting if he’d put tigers in them."], ["Bill Waterson"]],
-      [["There is no off switch on a tiger."], ["German Proverb"]],
-      [["A tiger never returns to his prey he did not finish off."], ["Chinese Proverb"]],
-      [["Do not blame God for having created the tiger, but thank him for not having given it wings"], ["Indian proverb"]],
-      [["You may, if you like, free a tiger from his bars; but do not free him from his stripes."], ["Gilbert K. Chesterton"]],
-      [["The tigers of wrath are wiser than the horses of instruction."], ["William Blake"]],
-      [["If you’re losing a tug of war with a tiger, give it the rope. You can always buy a new one."], ["Max Gunther"]],
-      [["When two tigers fight, one is certain to be maimed, and one to die."], ["Master Funakoshi"]],
-      [["Life goes on and you don't touch tigers."], ["Yann Martel"]]
+      [["A tiger does not shout its tigritude, it acts.\n"], ["Wole Soyinka"]],
+      [["Life is a tiger you have to grab by the tail, and if you don’t know the nature of the beast it will eat you up.\n"], ["Stephen King"]],
+      [["Tiger watches and hunts; whereas, hyenas wait and wait, for their time, to reach rubbish left by the tiger; similarly, the fools wait, not the wise ones.\n"], ["Ehsan Sehgal"]],
+      [["If you rile a tiger, he's going to show his claws.\n"], ["Rob James-Collier"]],
+      [["No man can tame a tiger into a kitten by stroking it.\n"], ["Franklin D. Roosevelt"]],
+      [["Those who foolishly sought power by riding the back of the tiger ended up inside.\n"], ["John F. Kennedy"]],
+      [["A tiger does not ignore or slight any small animal. The way he catches a mouse and catches and devours a cow are the same.\n"], ["Shunryu Suzuki"]],
+      [["A tiger never loses sleep over the opinion of sheep.\n"], ["Ziad K. Abdelnour"]],
+      [["The tiger lies low not from fear, but for aim.\n"], ["Sherrilyn Kenyon"]],
+      [["I feel like a tiger right now. There's nothing impossible if you get up and work for it.\n"], ["Michael Flatley"]],
+      [["Time is the substance from which I am made. Time is a river which carries me along, but I am the river; it is a tiger that devours me, but I am the tiger; it is a fire that consumes me, but I am the fire.\n"], ["Jorge Luis Borges"]],
+      [["An infallible method of conciliating a tiger is to allow oneself to be devoured.\n"], ["Konrad Adenauer"]],
+      [["The tiger will never lie down with the lamb. He acknowledges no pact that is not reciprocal. The lamb must learn to run with the tigers.\n"], ["Angela Carter"]],
+      [["The impact of an attacking tiger can be compared to that of a piano falling on you from a second story window. But unlike the piano, the tiger is designed to do this, and the impact is only the beginning.\n"], ["John Vaillant"]],
+      [["The most magnificent creature in the entire world the tiger is.\n"], ["Jack Hanna"]],
+      [["The tiger is a bellwether—one of the thousands of similarly vulnerable species, which are, at once, casualties of our success and symbols of our failure.\n"], ["John Vaillant"]],
+      [["Tigers, except when wounded or when man-eaters, are on the whole very good-tempered.\n"], ["Jim Corbett"]],
+      [["When a man wants to murder a tiger he calls it sport; when a tiger wants to murder him he calls it ferocity.\n"], ["George Bernard Shaw"]],
+      [["The Tiger in many countries, particularly India, represents the apex of the animal pyramid and the protection of their habitat should be a worldwide priority.\n"], ["Dr. Karan Singh"]],
+      [["As humans, we are fortunate to fight to secure so many rights: men's rights, women's rights, freedom of speech. But animals like tigers are losing their right to live. It is time we all support their most fundamental right - the right to exist!\n"], ["Gyalwa Dokhampa"]],
+      [["The one certainty in tiger tracks is: follow them long enough and you will eventually arrive at a tiger, unless the tiger arrives at you first.\n"], ["John Vaillant"]],
+      [["Young normal tigers do not eat people. If eaten by a tiger you may rest assured he was abnormal.\n"], ["Will Cuppy"]],
+      [["If we choose to walk into a forest where a tiger lives, we are taking a chance.\n"], ["Peter Benchley"]],
+      [["Van Gogh would’ve sold more than one painting if he’d put tigers in them.\n"], ["Bill Waterson"]],
+      [["There is no off switch on a tiger.\n"], ["German Proverb"]],
+      [["A tiger never returns to his prey he did not finish off.\n"], ["Chinese Proverb"]],
+      [["Do not blame God for having created the tiger, but thank him for not having given it wings\n"], ["Indian proverb"]],
+      [["You may, if you like, free a tiger from his bars; but do not free him from his stripes.\n"], ["Gilbert K. Chesterton"]],
+      [["The tigers of wrath are wiser than the horses of instruction.\n"], ["William Blake"]],
+      [["If you’re losing a tug of war with a tiger, give it the rope. You can always buy a new one.\n"], ["Max Gunther"]],
+      [["When two tigers fight, one is certain to be maimed, and one to die.\n"], ["Master Funakoshi"]],
+      [["Life goes on and you don't touch tigers.\n"], ["Yann Martel"]]
     ];
     isbig = true
     function sleep(milliseconds) {
@@ -577,8 +591,8 @@
       return a;
     }
     let links = [
-      createLink('javascript:pushToContent("https://tigernauts.github.io/hex")'),
-      createLink('javascript:pushToContent("https://tigernauts.github.io/defpass")'),
+      createLink('javascript:pushToContent("https://tygernaut.github.io/hex")'),
+      createLink('javascript:pushToContent("https://tygernaut.github.io/defpass")'),
     ]
     function pushToContent(iframe) {
       document.getElementById("iframe").src = iframe;
@@ -635,7 +649,7 @@
     end.id = 's'
     var i = 0
     var txt =
-      '\b>login : \r\tTigernauts\n\b>password : \r\t **************************\n\r\v\bGreetings.\nI\'m automation engineer who likes tygers and space. Here are some of my works and tools which simplify my job.\r' /* Текст */
+      '\b>login : \r\tTygernaut\n\b>password : \r\t **************************\n\r\v\bGreetings.\nI\'m automation engineer who likes tygers and space. Here are some of my works and tools which simplify my job\r' /* Текст */
     var speed = 35 /* Скорость/длительность эффекта в миллисекундах */
     showblink()
     let showContacts = () => {
