@@ -773,7 +773,7 @@
             Array.from(document.getElementsByClassName('link-right')).reverse().map((el, idx) =>
               setTimeout(() => {
                 el.classList.add('unblur');
-                let el2 = links[0].cloneNode(true)
+                let el2 = links[2].cloneNode(true)
                 el.appendChild(el2)
                 
                 setTimeout(() => { writer(el2, "HEX converter", 150) }, 1500);
