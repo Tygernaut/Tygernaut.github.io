@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0042)https://tygernaut.github.io/decbinhex.html -->
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -147,6 +146,14 @@
           }
           return sTemp
         }
+      }
+      function getURLVar(key) {
+        let vars = location.search.substr(1).split('&').reduce(function(res, a) {
+          let t = a.split('=');
+          res[decodeURIComponent(t[0])] = t.length == 1 ? null : decodeURIComponent(t[1]);
+          return res;
+        }, {});
+        return vars[key] ? vars[key] : ''; 
       }
       function hexOnly(event) {
         if ('1234567890ABCDEFabcdef '.indexOf(event.key) == -1)
@@ -626,6 +633,10 @@
       </div>
     </div>
     <!--  <footer></footer> -->
-    <script></script>
+    <script>
+      if(getURLVar('iframe')=='true'){
+        document.getElementsByTagName('header')[0].remove();
+      }
+    </script>
   </body>
 </html>
